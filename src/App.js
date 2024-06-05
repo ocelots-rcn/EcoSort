@@ -1,12 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
-import {} from '@material-ui/core'
-function App() {
+import React from 'react';
+import Header from './Header';
+import {Button, Container } from '@mui/material';
+
+const App = () => {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
+    <div>
+      <Header />
+      <Container>
+      </Container>
     </div>
   );
-}
+};
 
 export default App;
