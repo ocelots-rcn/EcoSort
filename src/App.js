@@ -1,22 +1,21 @@
 import React from 'react';
 import Header from './Header';
 import { Container } from '@mui/material';
+import { LanguageProvider } from './LanguageContext';
 
 const App = () => {
   return (
-    <div>
+    <LanguageProvider>
       <Header />
       <Container>
-        {/* Content for the first div */}
         <div>
-          {/* Content */}
+          {/*Card Checker */}
         </div>
-        {/* Content for the second div */}
         <div>
-          {/* Content */}
+          {/* Card Holder */}
         </div>
       </Container>
-    </div>
+    </LanguageProvider>
   );
 };
 

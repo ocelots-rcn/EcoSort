@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import {
-  AppBar, Toolbar, Button, Menu, MenuItem, IconButton, Typography, Box, Grid,
+  AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import translations from './translations'; // Import translations
+import LanguageContext from './LanguageContext';
 
 const Header = () => {
+  const { translation, setLanguage } = useContext(LanguageContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [langAnchorEl, setLangAnchorEl] = useState(null);
-  const [language, setLanguage] = useState('en');
-
-  useEffect(() => {
-    const browserLang = navigator.language.split('-')[0];
-    if (translations[browserLang]) {
-      setLanguage(browserLang);
-    }
-  }, []);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,7 +41,7 @@ const Header = () => {
         <Grid container alignItems="center">
           <Grid item xs={2}>
             <Button onClick={handleClick} variant="contained" sx={{ backgroundColor: '#8bc34a', color: '#fff' }}>
-              {translations[language].newBin}
+              {translation.newBin}
             </Button>
           </Grid>
           <Grid item xs={6}>
@@ -59,16 +52,16 @@ const Header = () => {
                 endIcon={<ArrowDropDownIcon />}
                 onClick={handleMenuClick}
               >
-                {translations[language].feature}
+                {translation.feature}
               </Button>
               <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={handleMenuClose}>{translations[language].feature1}</MenuItem>
-                <MenuItem onClick={handleMenuClose}>{translations[language].feature2}</MenuItem>
-                <MenuItem onClick={handleMenuClose}>{translations[language].feature3}</MenuItem>
+                <MenuItem onClick={handleMenuClose}>{translation.feature1}</MenuItem>
+                <MenuItem onClick={handleMenuClose}>{translation.feature2}</MenuItem>
+                <MenuItem onClick={handleMenuClose}>{translation.feature3}</MenuItem>
               </Menu>
             </Box>
           </Grid>
@@ -79,7 +72,7 @@ const Header = () => {
               endIcon={<ArrowDropDownIcon />}
               onClick={handleLangMenuClick}
             >
-              {translations[language].language}
+              {translation.language}
             </Button>
             <Menu
               anchorEl={langAnchorEl}
@@ -98,4 +91,5 @@ const Header = () => {
 };
 
 export default Header;
+
 
