@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Typography } from '@mui/material';
 import { useDrag } from 'react-dnd';
+import LanguageContext from './LanguageContext';
 import { ItemTypes } from './ItemTypes'; // Import item types
 
 const Card = ({ card }) => {
@@ -11,6 +12,8 @@ const Card = ({ card }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
+
+  const { translation } = useContext(LanguageContext);
 
   return (
     <Box
@@ -39,7 +42,7 @@ const Card = ({ card }) => {
       )}
       {card.features.map((feature, index) => (
         <Typography key={index} variant="body2">
-          {feature}
+          {translation[feature] || feature} {/* Use the translation if available */}
         </Typography>
       ))}
     </Box>
