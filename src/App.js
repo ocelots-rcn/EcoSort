@@ -3,7 +3,7 @@ import Header from './Header';
 import { Container, Grid } from '@mui/material';
 import { LanguageProvider } from './LanguageContext';
 import CardHolder from './CardHolder';
-import BigBox from './BigBox';
+import BigBox from './BinBox';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import CardData from './CardData';
