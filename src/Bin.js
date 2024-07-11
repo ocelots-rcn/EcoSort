@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
 const Bin = ({ id, cards, setCards }) => {
-  const [binCards, setBinCards] = useState([]);
-
-  useEffect(() => {
-    setBinCards(cards.filter(card => card.location === `bin-${id}`));
-  }, [cards, id]);
+  const binCards = cards.filter(card => card.location === `bin${id}`);
 
   const handleDrop = (card) => {
-    setCards(prevCards =>
+    setCards(prevCards => 
       prevCards.map(c =>
-        c.id === card.id ? { ...c, location: `bin-${id}` } : c
+        c.id === card.id ? { ...c, location: `bin${id}` } : c
       )
     );
   };

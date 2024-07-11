@@ -3,8 +3,9 @@ import { Box, Grid, Button } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
+import evaluateCardGrouping from './CARDELOTS';
 
-const CardHolder = ({ cards, setCards, isOriginalZoneEmpty }) => {
+const CardHolder = ({ cards, setCards, isOriginalZoneEmpty, bins }) => {
   const handleDrop = (card) => {
     setCards(prevCards =>
       prevCards.map(c =>
@@ -24,7 +25,11 @@ const CardHolder = ({ cards, setCards, isOriginalZoneEmpty }) => {
   const originalZoneCards = cards.filter(card => card.location === 'original');
 
   const handleButtonClick = () => {
-    console.log("Check if you are right");
+    console.log("Checking card grouping...");
+    console.log("Current cards:", cards);
+    console.log("Current bins:", bins);
+    const errors = evaluateCardGrouping(cards, bins);
+    console.log(errors);
   };
 
   return (

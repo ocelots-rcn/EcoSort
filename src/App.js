@@ -12,6 +12,7 @@ const App = () => {
   const [createNewBin, setCreateNewBin] = useState(false);
   const [cards, setCards] = useState(CardData);
   const [isOriginalZoneEmpty, setIsOriginalZoneEmpty] = useState(false);
+  const [bins, setBins] = useState([]);
 
   const handleNewBin = () => {
     setCreateNewBin(true);
@@ -33,10 +34,10 @@ const App = () => {
         <Container maxWidth="xl">
           <Grid container spacing={2}>
             <Grid item xs={8}>
-              <BinBox createNewBin={createNewBin} cards={cards} setCards={setCards} />
+              <BinBox createNewBin={createNewBin} cards={cards} setCards={setCards} bins={bins} setBins={setBins} />
             </Grid>
             <Grid item xs={4}>
-              <CardHolder cards={cards} setCards={setCards} isOriginalZoneEmpty={isOriginalZoneEmpty} />
+              <CardHolder cards={cards} setCards={setCards} isOriginalZoneEmpty={isOriginalZoneEmpty} bins={bins} />
             </Grid>
           </Grid>
         </Container>

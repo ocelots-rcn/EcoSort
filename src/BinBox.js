@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import Bin from './Bin';
 
-const BinBox = ({ createNewBin, cards, setCards }) => {
-  const [bins, setBins] = useState([]);
-
+const BinBox = ({ createNewBin, cards, setCards, bins, setBins }) => {
   const handleNewBin = () => {
     const newBinId = bins.length + 1;
     setBins(prevBins => [...prevBins, { id: newBinId }]);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (createNewBin) {
       handleNewBin();
     }
