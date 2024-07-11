@@ -1,14 +1,12 @@
-import React, { useContext, useState } from 'react';
-import {
-  AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid,
-} from '@mui/material';
+import React, { useContext } from 'react';
+import { AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import LanguageContext from './LanguageContext';
 
-const Header = () => {
+const Header = ({ onNewBin }) => {
   const { translation, setLanguage } = useContext(LanguageContext);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [langAnchorEl, setLangAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [langAnchorEl, setLangAnchorEl] = React.useState(null);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -31,8 +29,8 @@ const Header = () => {
     handleLangMenuClose();
   };
 
-  const handleClick = () => {
-    console.log("Button clicked");
+  const handleNewBinClick = () => {
+    onNewBin(); // Trigger the function passed from App to create a new bin
   };
 
   return (
@@ -40,7 +38,7 @@ const Header = () => {
       <Toolbar>
         <Grid container alignItems="center">
           <Grid item xs={2}>
-            <Button onClick={handleClick} variant="contained" sx={{ backgroundColor: '#8bc34a', color: '#fff' }}>
+            <Button onClick={handleNewBinClick} variant="contained" sx={{ backgroundColor: '#8bc34a', color: '#fff' }}>
               {translation.newBin}
             </Button>
           </Grid>
@@ -91,3 +89,4 @@ const Header = () => {
 };
 
 export default Header;
+

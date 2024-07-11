@@ -1,98 +1,48 @@
-import React, { useState, useContext } from 'react';
-import { Box, Typography } from '@mui/material';
+import React from 'react';
+import { Box, Grid } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from './ItemTypes'; // Import item types
-import LanguageContext from './LanguageContext'; // Import LanguageContext
+import { ItemTypes } from './ItemTypes';
 
-const CardHolder = () => {
-  const { translation } = useContext(LanguageContext);
-
-  const [originalZoneCards, setOriginalZoneCards] = useState([
-    { id: 1, color: 'red', features: ['featureXXX', 'featureYYY'], imageUrl: 'path_to_image1.jpg' },
-    { id: 2, color: 'blue', features: ['featureXXX', 'featureYYY'], imageUrl: 'path_to_image2.jpg' },
-  ]);
-
-  const [targetZoneCards, setTargetZoneCards] = useState([]);
-
-  const handleDrop = (card, targetZone) => {
-    if (targetZone === 'target') {
-      setTargetZoneCards(prevState => {
-        if (!prevState.some(c => c.id === card.id)) {
-          return [...prevState, card];
-        }
-        return prevState;
-      });
-      setOriginalZoneCards(prevState => prevState.filter(c => c.id !== card.id));
-    } else if (targetZone === 'original') {
-      setOriginalZoneCards(prevState => {
-        if (!prevState.some(c => c.id === card.id)) {
-          return [...prevState, card];
-        }
-        return prevState;
-      });
-      setTargetZoneCards(prevState => prevState.filter(c => c.id !== card.id));
-    }
+const CardHolder = ({ cards, setCards }) => {
+  const handleDrop = (card) => {
+    setCards(prevCards =>
+      prevCards.map(c =>
+        c.id === card.id ? { ...c, location: 'original' } : c
+      )
+    );
   };
 
-  const [{ isOver: isOverOriginal }, dropOriginal] = useDrop(() => ({
+  const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CARD,
-    drop: (item) => handleDrop(item.card, 'original'),
+    drop: (item) => handleDrop(item.card),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   }));
 
-  const [{ isOver: isOverTarget }, dropTarget] = useDrop(() => ({
-    accept: ItemTypes.CARD,
-    drop: (item) => handleDrop(item.card, 'target'),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  }));
+  const originalZoneCards = cards.filter(card => card.location === 'original');
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        <Box ref={dropTarget} sx={{
-          width: '70%', // Adjust width as needed
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Box ref={drop} sx={{
+          height: '80vh',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'flex-start',
-          padding: '20px',
-          backgroundColor: isOverTarget ? '#e0e0e0' : 'transparent',
-          border: '1px dashed #ccc',
-          marginRight: '10px',
-          minHeight: '80vh', // Ensure enough height for multiple cards
-        }}>
-          <Typography variant="h5" sx={{ marginBottom: '20px' }}>
-            {translation.newBin}
-          </Typography>
-          {targetZoneCards.map(card => (
-            <Card key={card.id} card={card} />
-          ))}
-        </Box>
-        <Box ref={dropOriginal} sx={{
-          width: '30%', // Adjust width as needed
-          minHeight: '80vh', // Adjusted height to be consistent
-          backgroundColor: isOverOriginal ? '#e0e0e0' : 'transparent',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
           justifyContent: 'center',
+          alignItems: 'flex-start',
           border: '1px dashed #ccc',
           padding: '20px',
+          overflowY: 'auto',
         }}>
-          <Typography variant="h5" sx={{ textAlign: 'center' }}>
-            {translation.newBin}
-          </Typography>
           {originalZoneCards.map(card => (
-            <Card key={card.id} card={card} />
+            <Card key={card.id} card={card} sx={{ margin: '10px' }} />
           ))}
         </Box>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 

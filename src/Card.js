@@ -19,8 +19,8 @@ const Card = ({ card }) => {
     <Box
       ref={drag}
       sx={{
-        width: '160px', // Increased card width
-        height: '200px', // Increased card height
+        width: '160px', // Adjusted card width
+        height: '200px', // Adjusted card height
         backgroundColor: card.color,
         border: '1px solid black',
         margin: '10px',
@@ -30,7 +30,6 @@ const Card = ({ card }) => {
         justifyContent: 'center',
         opacity: isDragging ? 0.5 : 1,
         cursor: 'move',
-        marginBottom: '10px',
       }}
     >
       {card.imageUrl && (
