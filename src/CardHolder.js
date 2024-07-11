@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Button } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 
-const CardHolder = ({ cards, setCards }) => {
+const CardHolder = ({ cards, setCards, isOriginalZoneEmpty }) => {
   const handleDrop = (card) => {
     setCards(prevCards =>
       prevCards.map(c =>
@@ -23,23 +23,37 @@ const CardHolder = ({ cards, setCards }) => {
 
   const originalZoneCards = cards.filter(card => card.location === 'original');
 
+  const handleButtonClick = () => {
+    console.log("Check if you are right");
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Box ref={drop} sx={{
           height: '80vh',
           display: 'flex',
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
+          flexDirection: 'column',
+          alignItems: 'center',
           border: '1px dashed #ccc',
           padding: '20px',
           overflowY: 'auto',
         }}>
-          {originalZoneCards.map(card => (
-            <Card key={card.id} card={card} sx={{ margin: '10px' }} />
-          ))}
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {originalZoneCards.map(card => (
+              <Card key={card.id} card={card} sx={{ margin: '10px' }} />
+            ))}
+          </Box>
+          {isOriginalZoneEmpty && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleButtonClick}
+              sx={{ marginTop: '20px' }}
+            >
+              Check if you are right
+            </Button>
+          )}
         </Box>
       </Grid>
     </Grid>

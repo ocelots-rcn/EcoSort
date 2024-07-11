@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@mui/material';
 import Bin from './Bin';
 
-const BigBox = ({ createNewBin, cards, setCards }) => {
+const BinBox = ({ createNewBin, cards, setCards }) => {
   const [bins, setBins] = useState([]);
 
   const handleNewBin = () => {
@@ -27,4 +27,4 @@ const BigBox = ({ createNewBin, cards, setCards }) => {
   );
 };
 
-export default BigBox;
+export default BinBox;
