@@ -7,6 +7,7 @@ import BinBox from './BinBox';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import CardData from './CardData';
+import CARDELOTS from './CARDELOTS';
 
 const App = () => {
   const [createNewBin, setCreateNewBin] = useState(false);
@@ -16,6 +17,11 @@ const App = () => {
 
   const handleNewBin = () => {
     setCreateNewBin(true);
+  };
+
+  const handleFeatureSelect = () => {
+    setBins([]);
+    setCards(CardData.map(card => ({ ...card, location: 'original' })));
   };
 
   useEffect(() => {
@@ -30,7 +36,7 @@ const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <LanguageProvider>
-        <Header onNewBin={handleNewBin} />
+        <Header onNewBin={handleNewBin} onFeatureSelect={handleFeatureSelect} />
         <Container maxWidth="xl">
           <Grid container spacing={2}>
             <Grid item xs={8}>

@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import LanguageContext from './LanguageContext';
 
-const Header = ({ onNewBin }) => {
+const Header = ({ onNewBin, onFeatureSelect }) => {
   const { translation, setLanguage } = useContext(LanguageContext);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [langAnchorEl, setLangAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [langAnchorEl, setLangAnchorEl] = useState(null);
+  const [selectedFeature, setSelectedFeature] = useState(translation.feature);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,8 +30,14 @@ const Header = ({ onNewBin }) => {
     handleLangMenuClose();
   };
 
+  const handleFeatureSelect = (feature) => {
+    setSelectedFeature(feature);
+    onFeatureSelect();
+    handleMenuClose();
+  };
+
   const handleNewBinClick = () => {
-    onNewBin(); // Trigger the function passed from App to create a new bin
+    onNewBin();
   };
 
   return (
@@ -50,16 +57,12 @@ const Header = ({ onNewBin }) => {
                 endIcon={<ArrowDropDownIcon />}
                 onClick={handleMenuClick}
               >
-                {translation.feature}
+                {selectedFeature}
               </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
-                <MenuItem onClick={handleMenuClose}>{translation.feature1}</MenuItem>
-                <MenuItem onClick={handleMenuClose}>{translation.feature2}</MenuItem>
-                <MenuItem onClick={handleMenuClose}>{translation.feature3}</MenuItem>
+              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                <MenuItem onClick={() => handleFeatureSelect(translation.feature1)}>{translation.feature1}</MenuItem>
+                <MenuItem onClick={() => handleFeatureSelect(translation.feature2)}>{translation.feature2}</MenuItem>
+                <MenuItem onClick={() => handleFeatureSelect(translation.feature3)}>{translation.feature3}</MenuItem>
               </Menu>
             </Box>
           </Grid>
@@ -72,11 +75,7 @@ const Header = ({ onNewBin }) => {
             >
               {translation.language}
             </Button>
-            <Menu
-              anchorEl={langAnchorEl}
-              open={Boolean(langAnchorEl)}
-              onClose={handleLangMenuClose}
-            >
+            <Menu anchorEl={langAnchorEl} open={Boolean(langAnchorEl)} onClose={handleLangMenuClose}>
               <MenuItem onClick={() => handleLanguageChange('en')}>English</MenuItem>
               <MenuItem onClick={() => handleLanguageChange('es')}>Español</MenuItem>
               <MenuItem onClick={() => handleLanguageChange('fr')}>Français</MenuItem>
@@ -89,4 +88,3 @@ const Header = ({ onNewBin }) => {
 };
 
 export default Header;
-
