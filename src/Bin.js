@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
@@ -43,8 +43,8 @@ const Bin = ({ id, cards, setCards }) => {
           display: 'flex',
           flexWrap: 'wrap',
           gap: '10px',
-          maxHeight: binCards.length > 2 ? 'calc(100% - 40px)' : 'auto',
-          overflowY: binCards.length > 2 ? 'auto' : 'hidden',
+          maxHeight: binCards.length > 1 ? 'calc(100% - 40px)' : 'auto',
+          overflowY: binCards.length > 1 ? 'auto' : 'hidden',
         }}
       >
         {binCards.map(card => (

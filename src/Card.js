@@ -15,6 +15,9 @@ const Card = ({ card }) => {
 
   const { translation } = useContext(LanguageContext);
 
+  // Image URL is now directly available in card.imageUrl
+  const imageUrl = card.imageUrl;
+
   return (
     <Box
       ref={drag}
@@ -30,18 +33,23 @@ const Card = ({ card }) => {
         justifyContent: 'center',
         opacity: isDragging ? 0.5 : 1,
         cursor: 'move',
+        padding: '10px', // Added padding for better spacing
+        textAlign: 'center', // Center all text within the Box
       }}
     >
-      {card.imageUrl && (
+      {imageUrl && (
         <img
-          src={card.imageUrl}
+          src={imageUrl}
           alt="card image"
           style={{ maxWidth: '100%', maxHeight: '100%', marginBottom: '10px' }}
         />
       )}
-      {card.features.map((feature, index) => (
-        <Typography key={index} variant="body2">
-          {translation[feature] || feature} {/* Use the translation if available */}
+      <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+        {card.title || 'No Label'} {/* Title should come from CardData */}
+      </Typography>
+      {card.features.filter(f => !f.isImage).map((feature, index) => (
+        <Typography key={index} variant="body2" sx={{ textAlign: 'center' }}>
+          {`${feature.feature}: ${translation[feature.data] || feature.data}`}
         </Typography>
       ))}
     </Box>
