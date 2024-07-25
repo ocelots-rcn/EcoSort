@@ -1,3 +1,4 @@
+import React from 'react';
 import dataset from './DataSet';
 import { Box, Typography } from '@mui/material';
 
@@ -6,39 +7,50 @@ const getFeatureNames = () => Object.keys(dataset.features || {});
 const generateUniqueId = (index) => index + 1;
 const determineCardColor = (index) => index % 2 === 0 ? 'red' : 'blue';
 
+// Define container types
+const ImageContainer = ({ src, label }) => (
+  <Box>
+    <img src={src} alt="card feature" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+    {label && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{label}</Typography>}
+  </Box>
+);
+const SequenceContainer = ({ data }) => <Typography variant="body2">{data}</Typography>;
+const TextContainer = ({ data }) => <Typography variant="body2">{data}</Typography>;
+
 // Transform data function
 const transformData = () => {
   const featureNames = getFeatureNames();
   const cards = dataset.cards || [];
 
   return cards.map((card, index) => {
-    // Transform features
-    const features = featureNames.map(name => {
+    // Initialize an empty array for children
+    const children = [];
+
+    // Extract features
+    featureNames.forEach(name => {
       const feature = dataset.features[name];
-      if (feature && feature.type === 'image') {
-        return { feature: name, data: card[name]?.data || '', isImage: true };
-      } else {
-        return { feature: name, data: card[name]?.data || '', isImage: false };
+      const featureData = card[name]?.data || '';
+      
+      if (feature?.type === 'image') {
+        // Extract image feature label
+        const imageFeatureLabel = card[name]?.label || 'cheese';
+        children.push(<ImageContainer key={name} src={featureData} label={imageFeatureLabel} />);
+      } else if (feature?.type === 'sequence') {
+        children.push(<SequenceContainer key={name} data={featureData} />);
+      } else if (feature?.type === 'text') {
+        children.push(<TextContainer key={name} data={featureData} />);
       }
     });
 
-    // Extract image data separately
-    const imageFeature = features.find(f => f.isImage);
-    const imageUrl = imageFeature ? imageFeature.data : '';
-
-    // Find the label for the image feature within the card
-    const imageFeatureName = features.find(f => f.isImage)?.feature;
-    const imageFeatureLabel = imageFeatureName ? (card[imageFeatureName]?.label || 'cheese') : 'cheese';
-
-    // Get the grouping information
+    // Get grouping information
     const grouping = card.grouping || '';
 
-    // Construct the container
+    // Construct container
     const container = (
       <Box
         sx={{
-          width: '160px', // Adjusted card width
-          height: '200px', // Adjusted card height
+          width: '160px',
+          height: '200px',
           backgroundColor: determineCardColor(index),
           border: '1px solid black',
           margin: '10px',
@@ -46,33 +58,19 @@ const transformData = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '10px', // Added padding for better spacing
-          textAlign: 'center', // Center all text within the Box
+          padding: '10px',
+          textAlign: 'center',
         }}
       >
-        {imageUrl && (
-          <img
-            src={imageUrl}
-            alt="card image"
-            style={{ maxWidth: '100%', maxHeight: '100%', marginBottom: '10px' }}
-          />
-        )}
-        <Typography variant="h6" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-          {imageFeatureLabel}
-        </Typography>
-        {features.filter(f => !f.isImage).map((feature, idx) => (
-          <Typography key={idx} variant="body2" sx={{ textAlign: 'center' }}>
-            {`${feature.feature}: ${feature.data}`}
-          </Typography>
-        ))}
+        {children}
       </Box>
     );
 
     return {
-      id: generateUniqueId(index), // Generate a unique ID based on index
-      container, // Pass the constructed container
-      location: 'original', // Set the original location
-      grouping, // Pass the grouping information
+      id: generateUniqueId(index),
+      container,
+      location: 'original',
+      grouping,
     };
   });
 };
