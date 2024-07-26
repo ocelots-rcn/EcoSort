@@ -3,19 +3,40 @@ import dataset from './DataSet';
 import { Box, Typography } from '@mui/material';
 
 // Helper functions
-const getFeatureNames = () => Object.keys(dataset.features || {});
+const getFeatureNames = () => Object.keys(dataset.features || []);
 const generateUniqueId = (index) => index + 1;
-const determineCardColor = (index) => index % 2 === 0 ? 'red' : 'blue';
+const determineCardColor = (index) => index % 2 === 0 ? '#eb7a7a' : '#7ab6eb';
 
 // Define container types
-const ImageContainer = ({ src, label }) => (
+const ImageContainer = ({ feature_data }) => (
   <Box>
-    <img src={src} alt="card feature" style={{ maxWidth: '100%', maxHeight: '100%' }} />
-    {label && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{label}</Typography>}
+    <img src={feature_data.data} alt="card feature" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+    {feature_data.label && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label}</Typography>}
   </Box>
 );
-const SequenceContainer = ({ data }) => <Typography variant="body2">{data}</Typography>;
-const TextContainer = ({ data }) => <Typography variant="body2">{data}</Typography>;
+const SequenceContainer = ({ feature_data }) => (
+  <Box sx={{display: 'flex', flexDirection: 'row'}}>
+    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label}</Typography>
+    {[...feature_data.data].map((char, index) => {
+      if(char.toLowerCase() === "a") {
+        return <Box key={index} sx={{padding: '2px', backgroundColor: '#f6db7b'}}>{char}</Box>
+      }
+      else if(char.toLowerCase() === "c") {
+        return <Box key={index} sx={{padding: '2px', backgroundColor: '#ff9ea4'}}>{char}</Box>
+      }
+      else if(char.toLowerCase() === "g") {
+        return <Box key={index} sx={{padding: '2px', backgroundColor: '#95e171'}}>{char}</Box>
+      }
+      else if(char.toLowerCase() === "t") {
+        return <Box key={index} sx={{padding: '2px', backgroundColor: '#75e2ff'}}>{char}</Box>
+      }
+
+      return null;
+    })
+  }
+  </Box>
+);
+const TextContainer = ({ feature_data }) => <Typography variant="body2">{feature_data.data}</Typography>;
 
 // Transform data function
 const transformData = () => {
@@ -29,16 +50,14 @@ const transformData = () => {
     // Extract features
     featureNames.forEach(name => {
       const feature = dataset.features[name];
-      const featureData = card[name]?.data || '';
       
       if (feature?.type === 'image') {
         // Extract image feature label
-        const imageFeatureLabel = card[name]?.label || 'cheese';
-        children.push(<ImageContainer key={name} src={featureData} label={imageFeatureLabel} />);
+        children.push(<ImageContainer key={name} feature_data={card[name]} />);
       } else if (feature?.type === 'sequence') {
-        children.push(<SequenceContainer key={name} data={featureData} />);
+        children.push(<SequenceContainer key={name} feature_data={card[name]} />);
       } else if (feature?.type === 'text') {
-        children.push(<TextContainer key={name} data={featureData} />);
+        children.push(<TextContainer key={name} feature_data={card[name]} />);
       }
     });
 

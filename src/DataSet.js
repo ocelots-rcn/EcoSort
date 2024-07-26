@@ -2,14 +2,20 @@ var dataset = {
     "features": {
       "morphology": {
         "type": "image",
+        "total_categories": 2,
+        "assessment_function": "categorical",
         "reflection_question": ""
       },
       "genetic": {
         "type": "sequence",
+        "total_categories": 2,
+        "assessment_function": "categorical",
         "reflection_question": ""
       },
       "country": {
         "type": "text",
+        "total_categories": 2,
+        "assessment_function": "categorical",
         "reflection_question": ""
       }
     },
