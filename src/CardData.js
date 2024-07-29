@@ -3,7 +3,6 @@ import dataset from './DataSet';
 import { Box, Typography } from '@mui/material';
 
 // Helper functions
-const getFeatureNames = () => Object.keys(dataset.features || []);
 const generateUniqueId = (index) => index + 1;
 const determineCardColor = (index) => index % 2 === 0 ? '#eb7a7a' : '#7ab6eb';
 
@@ -36,33 +35,24 @@ const SequenceContainer = ({ feature_data }) => (
   }
   </Box>
 );
-const TextContainer = ({ feature_data }) => <Typography variant="body2">{feature_data.data}</Typography>;
+const TextContainer = ({ feature_data }) => (
+  <Box>
+    {feature_data.label === ""?
+      <Typography variant="body2">{feature_data.data}</Typography>
+    :
+    <Typography variant="body2"><i>{feature_data.label}: </i>{feature_data.data}</Typography>
+        
+    }
+  </Box>
+);
 
 // Transform data function
 const transformData = () => {
-  const featureNames = getFeatureNames();
   const cards = dataset.cards || [];
 
   return cards.map((card, index) => {
-    // Initialize an empty array for children
-    const children = [];
-
-    // Extract features
-    featureNames.forEach(name => {
-      const feature = dataset.features[name];
-      
-      if (feature?.type === 'image') {
-        // Extract image feature label
-        children.push(<ImageContainer key={name} feature_data={card[name]} />);
-      } else if (feature?.type === 'sequence') {
-        children.push(<SequenceContainer key={name} feature_data={card[name]} />);
-      } else if (feature?.type === 'text') {
-        children.push(<TextContainer key={name} feature_data={card[name]} />);
-      }
-    });
-
     // Get grouping information
-    const grouping = card.grouping || '';
+    const grouping = card.grouping || {};
 
     // Construct container
     const container = (
@@ -81,7 +71,17 @@ const transformData = () => {
           textAlign: 'center',
         }}
       >
-        {children}
+    {Object.keys(card).map(name => {
+      if (card[name].type === 'image') {
+         return <ImageContainer key={name} feature_data={card[name]} />;
+      } else if (card[name].type === 'sequence') {
+        return <SequenceContainer key={name} feature_data={card[name]} />;
+      } else if (card[name].type === 'text') {
+        return <TextContainer key={name} feature_data={card[name]} />;
+      }
+
+      return null;
+    })}
       </Box>
     );
 
@@ -96,5 +96,6 @@ const transformData = () => {
 
 // Transform dataset to CardData format
 const CardData = transformData();
+const Groupings = dataset.groupings;
 
-export default CardData;
+export { CardData, Groupings };

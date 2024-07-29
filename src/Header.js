@@ -3,11 +3,10 @@ import { AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid } from '@mui/materia
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import LanguageContext from './LanguageContext';
 
-const Header = ({ onNewBin, onFeatureSelect }) => {
+const Header = ({ onNewBin, onGroupingSelect, groupingLabels, currentGrouping }) => {
   const { translation, setLanguage } = useContext(LanguageContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [langAnchorEl, setLangAnchorEl] = useState(null);
-  const [selectedFeature, setSelectedFeature] = useState(translation.feature);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -30,12 +29,6 @@ const Header = ({ onNewBin, onFeatureSelect }) => {
     handleLangMenuClose();
   };
 
-  const handleFeatureSelect = (feature) => {
-    setSelectedFeature(feature);
-    onFeatureSelect();
-    handleMenuClose();
-  };
-
   const handleNewBinClick = () => {
     onNewBin();
   };
@@ -53,16 +46,16 @@ const Header = ({ onNewBin, onFeatureSelect }) => {
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 variant="contained"
-                sx={{ backgroundColor: '#8bc34a', color: '#fff', marginLeft: '75%' }}
+                sx={{ backgroundColor: '#8bc34a', color: '#fff'}}
                 endIcon={<ArrowDropDownIcon />}
                 onClick={handleMenuClick}
               >
-                {selectedFeature}
+                {currentGrouping}
               </Button>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                <MenuItem onClick={() => handleFeatureSelect(translation.feature1)}>{translation.feature1}</MenuItem>
-                <MenuItem onClick={() => handleFeatureSelect(translation.feature2)}>{translation.feature2}</MenuItem>
-                <MenuItem onClick={() => handleFeatureSelect(translation.feature3)}>{translation.feature3}</MenuItem>
+                {groupingLabels.map(grouping => {
+                    return <MenuItem key={grouping} onClick={() => {handleMenuClose(); onGroupingSelect(grouping); }}>{grouping}</MenuItem>
+                })}
               </Menu>
             </Box>
           </Grid>
