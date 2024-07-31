@@ -2,9 +2,11 @@ import React, { useContext, useState } from 'react';
 import { AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import LanguageContext from './LanguageContext';
+import { useDataContext } from './DataProvider'; // Import DataProvider context hook
 
-const Header = ({ onNewBin, onGroupingSelect, groupingLabels, currentGrouping }) => {
+const Header = ({ onNewBin, onGroupingSelect, currentGrouping }) => {
   const { translation, setLanguage } = useContext(LanguageContext);
+  const { groupingLabels } = useDataContext(); // Access groupingLabels from DataProvider
   const [anchorEl, setAnchorEl] = useState(null);
   const [langAnchorEl, setLangAnchorEl] = useState(null);
 
@@ -37,8 +39,12 @@ const Header = ({ onNewBin, onGroupingSelect, groupingLabels, currentGrouping })
     <AppBar position="static" sx={{ backgroundColor: '#4a90e2' }}>
       <Toolbar>
         <Grid container alignItems="center">
-          <Grid item xs={2}>
-            <Button onClick={handleNewBinClick} variant="contained" sx={{ backgroundColor: '#8bc34a', color: '#fff' }}>
+          <Grid item xs={4}>
+            <Button 
+              onClick={handleNewBinClick} 
+              variant="contained" 
+              sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
+            >
               {translation.newBin}
             </Button>
           </Grid>
@@ -46,20 +52,29 @@ const Header = ({ onNewBin, onGroupingSelect, groupingLabels, currentGrouping })
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 variant="contained"
-                sx={{ backgroundColor: '#8bc34a', color: '#fff'}}
+                sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
                 endIcon={<ArrowDropDownIcon />}
                 onClick={handleMenuClick}
               >
                 {currentGrouping}
               </Button>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                {groupingLabels.map(grouping => {
-                    return <MenuItem key={grouping} onClick={() => {handleMenuClose(); onGroupingSelect(grouping); }}>{grouping}</MenuItem>
-                })}
+                {groupingLabels && groupingLabels.length > 0 ? (
+                  groupingLabels.map(grouping => (
+                    <MenuItem 
+                      key={grouping} 
+                      onClick={() => { handleMenuClose(); onGroupingSelect(grouping); }}
+                    >
+                      {grouping}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No groupings available</MenuItem>
+                )}
               </Menu>
             </Box>
           </Grid>
-          <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
               variant="contained"
               sx={{ backgroundColor: '#8bc34a', color: '#fff' }}

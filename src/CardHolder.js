@@ -3,9 +3,10 @@ import { Box, Grid, Button, Typography } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
-import CARDELOTS from './CARDELOTS';
+import { useDataContext } from './DataProvider'; // Import DataContext
 
-const CardHolder = ({ cards, setCards, isOriginalZoneEmpty, bins }) => {
+const CardHolder = ({ setCards, isOriginalZoneEmpty }) => {
+  const { cards, bins, validationErrors } = useDataContext(); // Get data from context
   const [message, setMessage] = useState('');
 
   const handleDrop = (card) => {
@@ -27,8 +28,11 @@ const CardHolder = ({ cards, setCards, isOriginalZoneEmpty, bins }) => {
   const originalZoneCards = cards.filter(card => card.location === 'original');
 
   const handleButtonClick = () => {
-    const errors = CARDELOTS(cards, bins);
-    setMessage(errors[0]);  // Only display the first message
+    if (validationErrors.length > 0) {
+      setMessage(validationErrors[0]);  // Display the first validation error
+    } else {
+      setMessage('All bins are correctly grouped.');
+    }
   };
 
   useEffect(() => {
