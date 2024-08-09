@@ -128,6 +128,11 @@ export const DataProvider = ({ children }) => {
     setOpen(false);
   };
 
+  const updateSelectedIndex = (index) => {
+    console.log('Setting Selected Index:', index);
+    setSelectedIndex(index);
+  };
+
   const checkGrouping = (index) => {
     if (index === null) {
       setMessage('No grouping selected.');
@@ -215,7 +220,7 @@ export const DataProvider = ({ children }) => {
   };  
 
   return (
-    <DataContext.Provider value={{ bins, setBins, cards, setCards, groupingLabels, checkGrouping, moveCard}}>
+    <DataContext.Provider value={{ bins, setBins, cards, setCards, groupingLabels, checkGrouping, moveCard, selectedIndex, updateSelectedIndex}}>
       {children}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Assessment Result</DialogTitle>

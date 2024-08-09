@@ -6,11 +6,10 @@ import { useDataContext } from './DataProvider'; // Import DataProvider context 
 
 const Header = ({ onNewBin }) => {
   const { translation, setLanguage } = useContext(LanguageContext);
-  const { groupingLabels, checkGrouping } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
+  const {groupingLabels, updateSelectedIndex, checkGrouping } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
   const [anchorEl, setAnchorEl] = useState(null);
   const [langAnchorEl, setLangAnchorEl] = useState(null);
   const [currentGrouping, setCurrentGrouping] = useState('Select Grouping');
-  const [selectedIndex, setSelectedIndex] = useState(null); // To track selected index
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,10 +38,8 @@ const Header = ({ onNewBin }) => {
 
   const handleGroupingSelect = (index) => {
     setCurrentGrouping(groupingLabels[index]);
-    setSelectedIndex(index); // Set the selected index
+    updateSelectedIndex(index); // Set the selected index
     handleMenuClose();
-    // Trigger the assessment check with the selected index
-    checkGrouping(index);
   };
 
   return (

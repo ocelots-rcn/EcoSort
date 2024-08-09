@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { useDataContext } from './DataProvider';
 
 const CardHolder = () => {
-  const { cards, moveCard } = useDataContext();
+  const { cards, moveCard, checkGrouping, selectedIndex} = useDataContext();
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CARD,
@@ -17,6 +17,7 @@ const CardHolder = () => {
   }));
 
   const cardArray = Object.values(cards).filter(card => card.location === 'original');
+  const isCardHolderEmpty = cardArray.length === 0;
 
   return (
     <Box
@@ -35,8 +36,27 @@ const CardHolder = () => {
       {cardArray.map(card => (
         <Card key={card.id} card={card} />
       ))}
+
+      {isCardHolderEmpty && (
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{
+            position: 'absolute',
+            top: '15%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: '#8bc34a',
+            color: 'white',
+          }}
+          onClick={() => checkGrouping(selectedIndex)}
+        >
+          Run Grouping Assessment
+        </Button>
+      )}
     </Box>
   );
 };
 
 export default CardHolder;
+
