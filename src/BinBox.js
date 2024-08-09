@@ -9,8 +9,9 @@ const BinBox = ({ createNewBin }) => {
   // Handle creating a new bin
   const handleNewBin = () => {
     const newBinId = bins.length + 1;
-    setBins(prevBins => [...prevBins, { id: newBinId }]);
+    setBins(prevBins => [...prevBins, { id: newBinId, contents: [] }]); // Initialize contents
   };
+  
 
   useEffect(() => {
     if (createNewBin) {
