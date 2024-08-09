@@ -3,24 +3,22 @@ import { Box, Typography } from '@mui/material';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
-import { useDataContext } from './DataProvider'; // Adjust the path as necessary
+import { useDataContext } from './DataProvider';
 
 const Bin = ({ id }) => {
-  const { cards, setCards } = useDataContext(); // Use context to get cards and setCards
+  const { bins, cards, moveCard } = useDataContext();
 
-  // Filter cards to get those in the current bin
-  const binCards = cards.filter(card => card.location === `bin${id}`);
+  const bin = bins.find(bin => bin.id === id);
 
-  // Handle dropping a card into this bin
+  const binCards = bin?.contents?.map(cardId => cards[cardId]) || [];
+
   const handleDrop = (card) => {
-    setCards(prevCards =>
-      prevCards.map(c =>
-        c.id === card.id ? { ...c, location: `bin${id}` } : c
-      )
-    );
+    const sourceLocation = cards[card.id]?.location;
+    if (sourceLocation !== id) { // Move only if the source location is different
+      moveCard(card.id, id);
+    }
   };
 
-  // Set up the drop target for drag-and-drop functionality
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CARD,
     drop: (item) => handleDrop(item.card),
@@ -43,7 +41,7 @@ const Bin = ({ id }) => {
         flexDirection: 'column',
       }}
     >
-      <Typography variant="h6" sx={{ marginBottom: '10px' }}>Bin {id}</Typography>
+      <Typography variant="h6" sx={{ marginBottom: '10px' }}>Grouping {id}</Typography>
       <Box
         sx={{
           display: 'flex',

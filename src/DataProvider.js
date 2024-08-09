@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import dataset from './DataSet'; // Adjust the path as necessary
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 // Helper functions
 const generateUniqueId = (index) => index + 1;
@@ -27,7 +27,6 @@ const SequenceContainer = ({ feature_data }) => (
       } else if (char.toLowerCase() === "t") {
         return <Box key={index} sx={{ padding: '2px', backgroundColor: '#75e2ff' }}>{char}</Box>
       }
-
       return null;
     })}
   </Box>
@@ -42,7 +41,6 @@ const TextContainer = ({ feature_data }) => (
     }
   </Box>
 );
-
 // Transform data function
 const transformData = () => {
   const cards = dataset.cards || [];
@@ -51,50 +49,47 @@ const transformData = () => {
   // Extract grouping labels
   const groupingLabels = Object.keys(groupings);
 
-  const transformedCards = cards.map((card, index) => {
-    // Construct container
-    const container = (
-      <Box
-        sx={{
-          width: '160px',
-          height: '200px',
-          backgroundColor: determineCardColor(index),
-          border: '1px solid black',
-          margin: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '10px',
-          textAlign: 'center',
-        }}
-      >
-        {Object.keys(card).map(name => {
-          if (card[name].type === 'image') {
-            return <ImageContainer key={name} feature_data={card[name]} />;
-          } else if (card[name].type === 'sequence') {
-            return <SequenceContainer key={name} feature_data={card[name]} />;
-          } else if (card[name].type === 'text') {
-            return <TextContainer key={name} feature_data={card[name]} />;
-          }
-
-          return null;
-        })}
-      </Box>
-    );
-
-    return {
-      id: generateUniqueId(index),
-      container,
+  const transformedCards = cards.reduce((acc, card, index) => {
+    const id = generateUniqueId(index);
+    acc[id] = {
+      id,
+      container: (
+        <Box
+          sx={{
+            width: '160px',
+            height: '200px',
+            backgroundColor: determineCardColor(index),
+            border: '1px solid black',
+            margin: '10px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '10px',
+            textAlign: 'center',
+          }}
+        >
+          {Object.keys(card).map(name => {
+            if (card[name].type === 'image') {
+              return <ImageContainer key={name} feature_data={card[name]} />;
+            } else if (card[name].type === 'sequence') {
+              return <SequenceContainer key={name} feature_data={card[name]} />;
+            } else if (card[name].type === 'text') {
+              return <TextContainer key={name} feature_data={card[name]} />;
+            }
+            return null;
+          })}
+        </Box>
+      ),
       location: 'original',
       grouping: card.grouping,
       color: card.color || 'none', // Add color attribute if available
     };
-  });
+    return acc;
+  }, {});
 
   return {
     cards: transformedCards,
-    groupings: groupings, // Add groupings to the result
     groupingLabels, // Add groupingLabels to the result
   };
 };
@@ -105,21 +100,22 @@ const DataContext = createContext();
 // Create a provider component
 export const DataProvider = ({ children }) => {
   const [bins, setBins] = useState([]);
-  const [cards, setCards] = useState([]);
-  const [groupings, setGroupings] = useState({}); // Add state for groupings
-  const [groupingLabels, setGroupingLabels] = useState([]); // Add state for grouping labels
+  const [cards, setCards] = useState({});
+  const [groupingLabels, setGroupingLabels] = useState([]);
+  const [open, setOpen] = useState(false); // Dialog state
+  const [message, setMessage] = useState(''); // Message state
+  const [selectedIndex, setSelectedIndex] = useState(null); // Track selected index
 
   // Fetch and transform data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { cards: transformedCards, groupings: groupingData, groupingLabels: labels } = transformData();
+        const { cards: transformedCards, groupingLabels: labels } = transformData();
         setCards(transformedCards);
-        setGroupings(groupingData); // Set groupings state
         setGroupingLabels(labels); // Set groupingLabels state
         
         const binsFromDataset = dataset.bins || [];
-        setBins(binsFromDataset);
+        setBins(binsFromDataset.map(bin => ({ id: bin, contents: [] })));
       } catch (error) {
         console.error('Error in fetching data:', error);
       }
@@ -128,9 +124,108 @@ export const DataProvider = ({ children }) => {
     fetchData();
   }, []);
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const checkGrouping = (index) => {
+    if (index === null) {
+      setMessage('No grouping selected.');
+      setOpen(true);
+      return;
+    }
+  
+    const selectedGrouping = groupingLabels[index];
+    console.log(`Selected Grouping: ${selectedGrouping}`);
+  
+    const totalCategories = dataset.groupings[selectedGrouping]?.total_categories || bins.length;
+    const assessmentFunction = dataset.groupings[selectedGrouping]?.assessment_function || 'categorical';
+  
+    console.log(`Total Categories: ${totalCategories}`);
+    console.log(`Assessment Function: ${assessmentFunction}`);
+  
+    if (bins.length !== totalCategories) {
+      setMessage('The number of bins does not match the total categories.');
+      setOpen(true);
+      return;
+    }
+  
+    if (assessmentFunction === 'categorical') {
+      let isCorrect = true;
+      
+      for (let bin of bins) {
+        // Debugging: Ensure bin name is correct
+        console.log(`Checking Bin: ${bin.id}`);
+  
+        const cardsInBin = bin.contents.map(cardId => cards[cardId]);
+        console.log(`Cards in Bin ${bin.id}:`, cardsInBin);
+  
+        if (cardsInBin.length === 0) continue;
+  
+        // Debugging: Check the selected grouping value for cards in the bin
+        const firstCardGroupingValue = cardsInBin[0]?.grouping[selectedGrouping];
+        console.log(`First Card Grouping Value in Bin ${bin.id}: ${firstCardGroupingValue}`);
+  
+        // Check if all cards in this bin have the same grouping value
+        const allMatch = cardsInBin.every(card => card.grouping[selectedGrouping] === firstCardGroupingValue);
+        console.log(`All cards match in Bin ${bin.id}: ${allMatch}`);
+  
+        if (!allMatch) {
+          isCorrect = false;
+          break;
+        }
+      }
+  
+      if (isCorrect) {
+        setMessage('All cards are correctly grouped.');
+      } else {
+        setMessage('Some cards are not correctly grouped.');
+      }
+    } else {
+      console.log("Implement your own assessment function");
+    }
+  
+    setOpen(true);
+  };   
+  
+  const moveCard = (cardId, newLocation) => {
+    setBins((prevBins) => {
+      const updatedBins = prevBins.map((bin) => {
+        if (bin.id === newLocation) {
+          // Add the card to the new location
+          const newContents = Array.isArray(bin.contents) ? [...bin.contents, cardId] : [cardId];
+          return { ...bin, contents: newContents };
+        } else if (bin.contents.includes(cardId)) {
+          // Remove the card from its previous location
+          const newContents = bin.contents.filter((id) => id !== cardId);
+          return { ...bin, contents: newContents };
+        }
+        return bin;
+      });
+      return updatedBins;
+    });
+  
+    setCards((prevCards) => {
+      const updatedCards = {
+        ...prevCards,
+        [cardId]: { ...prevCards[cardId], location: newLocation },
+      };
+      return updatedCards;
+    });
+  };  
+
   return (
-    <DataContext.Provider value={{ bins, setBins, cards, setCards, groupings, setGroupings, groupingLabels }}>
+    <DataContext.Provider value={{ bins, setBins, cards, setCards, groupingLabels, checkGrouping, moveCard}}>
       {children}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Assessment Result</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{message}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
     </DataContext.Provider>
   );
 };

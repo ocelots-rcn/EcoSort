@@ -4,11 +4,13 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import LanguageContext from './LanguageContext';
 import { useDataContext } from './DataProvider'; // Import DataProvider context hook
 
-const Header = ({ onNewBin, onGroupingSelect, currentGrouping }) => {
+const Header = ({ onNewBin }) => {
   const { translation, setLanguage } = useContext(LanguageContext);
-  const { groupingLabels } = useDataContext(); // Access groupingLabels from DataProvider
+  const { groupingLabels, checkGrouping } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
   const [anchorEl, setAnchorEl] = useState(null);
   const [langAnchorEl, setLangAnchorEl] = useState(null);
+  const [currentGrouping, setCurrentGrouping] = useState('Select Grouping');
+  const [selectedIndex, setSelectedIndex] = useState(null); // To track selected index
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,6 +35,14 @@ const Header = ({ onNewBin, onGroupingSelect, currentGrouping }) => {
 
   const handleNewBinClick = () => {
     onNewBin();
+  };
+
+  const handleGroupingSelect = (index) => {
+    setCurrentGrouping(groupingLabels[index]);
+    setSelectedIndex(index); // Set the selected index
+    handleMenuClose();
+    // Trigger the assessment check with the selected index
+    checkGrouping(index);
   };
 
   return (
@@ -60,10 +70,10 @@ const Header = ({ onNewBin, onGroupingSelect, currentGrouping }) => {
               </Button>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
                 {groupingLabels && groupingLabels.length > 0 ? (
-                  groupingLabels.map(grouping => (
+                  groupingLabels.map((grouping, index) => (
                     <MenuItem 
                       key={grouping} 
-                      onClick={() => { handleMenuClose(); onGroupingSelect(grouping); }}
+                      onClick={() => handleGroupingSelect(index)} // Pass the index
                     >
                       {grouping}
                     </MenuItem>
