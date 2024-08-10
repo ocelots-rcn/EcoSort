@@ -53,7 +53,18 @@ const Bin = ({ id }) => {
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h6" sx={{ marginBottom: '10px' }}>Grouping {id}</Typography>
-        <IconButton onClick={handleDeleteBin} size="small" sx={{ padding: '4px', marginLeft: 'auto' }}>
+        <IconButton
+          onClick={handleDeleteBin}
+          size="small"
+          sx={{
+            padding: '4px',
+            marginLeft: 'auto',
+            '&:hover': {
+              color: 'red',
+              backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            },
+          }}
+        >
           <CloseIcon fontSize="small" />
         </IconButton>
       </Box>
