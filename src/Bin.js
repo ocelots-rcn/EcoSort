@@ -1,13 +1,13 @@
 import React from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close'; // Import the close icon
+import CloseIcon from '@mui/icons-material/Close';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { useDataContext } from './DataProvider';
 
 const Bin = ({ id }) => {
-  const { bins, cards, moveCard, deleteBin } = useDataContext(); // Access the deleteBin function
+  const { bins, cards, moveCard, deleteBin } = useDataContext();
 
   const bin = bins.find(bin => bin.id === id);
 
@@ -15,22 +15,26 @@ const Bin = ({ id }) => {
 
   const handleDrop = (card) => {
     const sourceLocation = cards[card.id]?.location;
-    if (sourceLocation !== id) { // Move only if the source location is different
+    if (sourceLocation !== id) {
       moveCard(card.id, id);
     }
   };
 
-  const handleDeleteBin = () => {
-    deleteBin(id); // Call the deleteBin function with the bin id
-  };
-
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CARD,
-    drop: (item) => handleDrop(item.card),
+    drop: (item) => {
+      if (!bin.contents.includes(item.card.id)) {  // Check if card is already in the bin
+        handleDrop(item.card);
+      }
+    },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   }));
+
+  const handleDeleteBin = () => {
+    deleteBin(id);
+  };
 
   return (
     <Box
@@ -39,7 +43,7 @@ const Bin = ({ id }) => {
         flex: '0 0 calc(40%)',
         height: '260px',
         backgroundColor: isOver ? '#e0e0e0' : 'transparent',
-        border: '1px solid #ccc',
+        border: '1px dashed #ccc',
         marginBottom: '10px',
         padding: '10px',
         display: 'flex',
@@ -47,33 +51,12 @@ const Bin = ({ id }) => {
         position: 'relative',
       }}
     >
-      {/* Header with Grouping ID and X Button */}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '10px',
-        }}
-      >
-        <Typography variant="h6">Grouping {id}</Typography>
-        <IconButton
-          sx={{
-            width: '24px',
-            height: '24px',
-            padding: '0',
-            backgroundColor: '#f44336',
-            color: '#fff',
-            '&:hover': {
-              backgroundColor: '#d32f2f',
-            },
-          }}
-          onClick={handleDeleteBin}
-        >
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Typography variant="h6" sx={{ marginBottom: '10px' }}>Grouping {id}</Typography>
+        <IconButton onClick={handleDeleteBin} size="small" sx={{ padding: '4px', marginLeft: 'auto' }}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </Box>
-
       <Box
         sx={{
           display: 'flex',

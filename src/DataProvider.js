@@ -197,9 +197,12 @@ export const DataProvider = ({ children }) => {
     setBins((prevBins) => {
       const updatedBins = prevBins.map((bin) => {
         if (bin.id === newLocation) {
-          // Add the card to the new location
-          const newContents = Array.isArray(bin.contents) ? [...bin.contents, cardId] : [cardId];
-          return { ...bin, contents: newContents };
+          // Check if the card is already in the new location
+          if (!bin.contents.includes(cardId)) {
+            // Add the card to the new location if it's not already there
+            const newContents = [...bin.contents, cardId];
+            return { ...bin, contents: newContents };
+          }
         } else if (bin.contents.includes(cardId)) {
           // Remove the card from its previous location
           const newContents = bin.contents.filter((id) => id !== cardId);
@@ -211,13 +214,13 @@ export const DataProvider = ({ children }) => {
     });
   
     setCards((prevCards) => {
-      const updatedCards = {
+      return {
         ...prevCards,
         [cardId]: { ...prevCards[cardId], location: newLocation },
       };
-      return updatedCards;
     });
-  };  
+  };
+  
 
   const deleteBin = (binId) => {
     setBins(prevBins => {
