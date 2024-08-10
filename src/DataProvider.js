@@ -150,7 +150,7 @@ export const DataProvider = ({ children }) => {
     console.log(`Assessment Function: ${assessmentFunction}`);
   
     if (bins.length !== totalCategories) {
-      setMessage('The number of bins does not match the total categories.');
+      setMessage('The number of groupings is incorrect.');
       setOpen(true);
       return;
     }
@@ -219,8 +219,44 @@ export const DataProvider = ({ children }) => {
     });
   };  
 
+  const deleteBin = (binId) => {
+    setBins(prevBins => {
+      const binIndex = prevBins.findIndex(bin => bin.id === binId);
+
+      if (binIndex === -1) return prevBins;
+
+      // Move cards from the deleted bin back to the original location
+      const binToDelete = prevBins[binIndex];
+      if (binToDelete.contents.length > 0) {
+        binToDelete.contents.forEach(cardId => {
+          moveCard(cardId, 'original');
+        });
+      }
+
+      // Shift remaining bins to the left
+      const updatedBins = prevBins.filter(bin => bin.id !== binId);
+
+      for (let i = binIndex + 1; i < prevBins.length; i++) {
+        const newBinId = prevBins[i].id - 1;
+
+        // Update cards' location for the shifted bin
+        const oldBin = prevBins[i];
+        oldBin.contents.forEach(cardId => {
+          moveCard(cardId, newBinId);
+        });
+
+        updatedBins[i - 1] = {
+          ...prevBins[i],
+          id: newBinId,
+        };
+      }
+
+      return updatedBins;
+    });
+  };
+
   return (
-    <DataContext.Provider value={{ bins, setBins, cards, setCards, groupingLabels, checkGrouping, moveCard, selectedIndex, updateSelectedIndex}}>
+    <DataContext.Provider value={{ bins, setBins, cards, setCards, groupingLabels, checkGrouping, moveCard, selectedIndex, updateSelectedIndex, deleteBin}}>
       {children}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Assessment Result</DialogTitle>
