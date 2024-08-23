@@ -3,20 +3,21 @@ import LanguageContext from './LanguageContext'; // Correct path to LanguageCont
 import dataset from './DataSet'; // Adjust the path as necessary
 import { Box, Typography, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
-// Helper functions
-const generateUniqueId = (index) => index + 1;
-
 // Define container types
-const ImageContainer = ({ feature_data}) => (
-    <Box>
-        <img src={feature_data.data} alt="card feature" style={{ maxWidth: '100%', maxHeight: '100%' }} />
-        {feature_data.label['en'] && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label['en']}</Typography>}
-    </Box>
-);
+const ImageContainer = ({ feature_data}) => {
+    const languageContext = useContext(LanguageContext);
 
-const SequenceContainer = ({ feature_data }) => (
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label['en']}</Typography>
+    return <Box>
+        <img src={feature_data.data} alt="card feature" style={{ maxWidth: '200px', maxHeight: '200px' }} />
+        {feature_data.label['en'] && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{languageContext.translateBlock(feature_data.label)}</Typography>}
+    </Box>
+};
+
+const SequenceContainer = ({ feature_data }) => {
+    const languageContext = useContext(LanguageContext);
+
+    return <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{languageContext.translateBlock(feature_data.label)}</Typography>
         {[...feature_data.data].map((char, index) => {
             if (char.toLowerCase() === "a") {
                 return <Box key={index} sx={{ padding: '2px', backgroundColor: '#f6db7b' }}>{char}</Box>
@@ -30,17 +31,19 @@ const SequenceContainer = ({ feature_data }) => (
             return null;
         })}
     </Box>
-);
+};
 
-const TextContainer = ({ feature_data }) => (
-    <Box>
+const TextContainer = ({ feature_data }) => {
+    const { translateBlock } = useContext(LanguageContext);
+
+    return <Box>
         {feature_data.label === "" ?
-            <Typography variant="body2">{feature_data.data['en']}</Typography>
+            <Typography variant="body2">{translateBlock(feature_data.data)}</Typography>
             :
-            <Typography variant="body2"><i>{feature_data.label['en']}: </i>{feature_data.data['en']}</Typography>
+            <Typography variant="body2"><i>{translateBlock(feature_data.label)}</i><br/>{translateBlock(feature_data.data)}</Typography>
         }
     </Box>
-);
+};
 
 const transformData = (language) => {
     const cards = dataset.cards || [];
@@ -49,9 +52,8 @@ const transformData = (language) => {
     const groupingLabels = Object.keys(groupings).map(key => groupings[key].label[language]);
 
     const transformedCards = cards.reduce((acc, card, index) => {
-        const id = generateUniqueId(index);
-        acc[id] = {
-            id,
+        acc[index] = {
+            id: index,
             container: (
                 <Box
                     sx={{
@@ -80,8 +82,7 @@ const transformData = (language) => {
                 </Box>
             ),
             location: 'original',
-            grouping: card.grouping,
-            color: card.color || 'none',
+            grouping: card.grouping
         };
         return acc;
     }, {});
@@ -97,20 +98,14 @@ const DataContext = createContext();
 
 // Create a provider component
 export const DataProvider = ({ children }) => {
-    const languageContext = useContext(LanguageContext); // Access LanguageContext
+    const { language } = useContext(LanguageContext);
+
     const [bins, setBins] = useState([]);
     const [cards, setCards] = useState({});
     const [groupingLabels, setGroupingLabels] = useState([]);
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(null);
-
-    // Check if LanguageContext is valid
-    if (!languageContext) {
-        throw new Error('DataProvider must be used within a LanguageProvider');
-    }
-
-    const { language } = languageContext; // Destructure language from context
 
     useEffect(() => {
         const fetchData = async () => {
@@ -127,6 +122,7 @@ export const DataProvider = ({ children }) => {
         };
 
         fetchData();
+        
     }, [language]);
 
     const handleClose = () => {

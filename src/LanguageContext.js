@@ -13,9 +13,14 @@ export const LanguageProvider = ({ children }) => {
     }
   }, []);
 
+  const translateBlock = (block) => {
+    return block[language] || block['en'];
+  };
+
   const value = {
     language,
     setLanguage,
+    translateBlock,
     translation: translations[language] || translations.en, // Default to English if language not supported
   };
 

@@ -1,12 +1,17 @@
 import React, { useContext, useState } from 'react';
+
 import { AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 import LanguageContext from './LanguageContext';
 import { useDataContext } from './DataProvider'; // Import DataProvider context hook
 
 const Header = ({ onNewBin }) => {
   const { translation, setLanguage } = useContext(LanguageContext);
-  const {groupingLabels, updateSelectedIndex, checkGrouping } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
+  const {groupingLabels, updateSelectedIndex } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
   const [anchorEl, setAnchorEl] = useState(null);
   const [langAnchorEl, setLangAnchorEl] = useState(null);
   const [currentGrouping, setCurrentGrouping] = useState('Select Grouping');

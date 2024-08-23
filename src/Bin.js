@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { useDataContext } from './DataProvider';
+import LanguageContext from './LanguageContext';
 
 const Bin = ({ id }) => {
+  const { translation } = useContext(LanguageContext);
   const { bins, cards, moveCard, deleteBin } = useDataContext();
 
   const bin = bins.find(bin => bin.id === id);
@@ -52,7 +54,7 @@ const Bin = ({ id }) => {
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ marginBottom: '10px' }}>Grouping {id}</Typography>
+        <Typography variant="h6" sx={{ marginBottom: '10px' }}>{translation['group']} {id}</Typography>
         <IconButton
           onClick={handleDeleteBin}
           size="small"
