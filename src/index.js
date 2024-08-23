@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { DataProvider } from './DataProvider';
+import { LanguageProvider } from './LanguageContext'; // Import LanguageProvider
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DataProvider>
-      <App />
-    </DataProvider>
+    <LanguageProvider> 
+      <DataProvider>
+        <App />
+      </DataProvider>
+    </LanguageProvider>
   </React.StrictMode>
 );
 
@@ -18,3 +21,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+

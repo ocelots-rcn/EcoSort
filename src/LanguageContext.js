@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import translations from './translations'; // Import the translations
+import translations from './translations';
 
 const LanguageContext = createContext();
 
@@ -16,7 +16,7 @@ export const LanguageProvider = ({ children }) => {
   const value = {
     language,
     setLanguage,
-    translation: translations[language] || translations.en // Default to English if language not supported
+    translation: translations[language] || translations.en, // Default to English if language not supported
   };
 
   return (

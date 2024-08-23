@@ -6,11 +6,10 @@ import CardHolder from './CardHolder';
 import BinBox from './BinBox';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DataProvider, useDataContext } from './DataProvider'; // Adjust the path as necessary
+import { DataProvider } from './DataProvider'; // Adjust the path as necessary
 
 const App = () => {
   const [createNewBin, setCreateNewBin] = useState(false);
-  const { bins } = useDataContext();
 
   const handleNewBin = () => {
     setCreateNewBin(true);
@@ -21,9 +20,9 @@ const App = () => {
   }, [createNewBin]);
 
   return (
-    <DataProvider>
-      <DndProvider backend={HTML5Backend}>
-        <LanguageProvider>
+    <LanguageProvider>
+      <DataProvider>
+        <DndProvider backend={HTML5Backend}>
           <Header onNewBin={handleNewBin} />
           <Container maxWidth="xl">
             <Grid container spacing={2}>
@@ -35,9 +34,9 @@ const App = () => {
               </Grid>
             </Grid>
           </Container>
-        </LanguageProvider>
-      </DndProvider>
-    </DataProvider>
+        </DndProvider>
+      </DataProvider>
+    </LanguageProvider>
   );
 };
 
