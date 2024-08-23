@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import { Container, Grid } from '@mui/material';
-import { LanguageProvider } from './LanguageContext';
-import CardHolder from './CardHolder';
-import BinBox from './BinBox';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DataProvider } from './DataProvider'; // Adjust the path as necessary
+
+import Box from '@mui/material/Box';
+
+import { LanguageProvider } from './LanguageContext';
+import Header from './Header';
+import CardHolder from './CardHolder';
+import BinBox from './BinBox';
+
+
 
 const App = () => {
   const [createNewBin, setCreateNewBin] = useState(false);
@@ -24,16 +28,10 @@ const App = () => {
       <DataProvider>
         <DndProvider backend={HTML5Backend}>
           <Header onNewBin={handleNewBin} />
-          <Container maxWidth="xl">
-            <Grid container spacing={2}>
-              <Grid item xs={8}>
-                <BinBox createNewBin={createNewBin} />
-              </Grid>
-              <Grid item xs={4}>
-                <CardHolder />
-              </Grid>
-            </Grid>
-          </Container>
+          <Box sx={{display: 'flex', flexDirection: 'row' }}>
+            <BinBox createNewBin={createNewBin} />
+            <CardHolder />
+          </Box>
         </DndProvider>
       </DataProvider>
     </LanguageProvider>

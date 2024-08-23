@@ -20,13 +20,19 @@ const BinBox = ({ createNewBin }) => {
   }, [createNewBin]);
 
   return (
-    <Box sx={{ height: '80vh', width: '97.5%', border: '1px solid #ccc', padding: '20px', overflowX: 'auto', margin: '0 auto' }}>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+      <Box sx={{
+        padding: 3,
+        display: 'flex',
+        flex: 1,
+        flexWrap: 'wrap',
+        gap: '10px',
+        justifyContent: 'center',
+        maxHeight: '80vh',
+        overflowY: 'auto'}}>
         {bins.map(bin => (
           <Bin key={bin.id} id={bin.id} />
         ))}
       </Box>
-    </Box>
   );
 };
 

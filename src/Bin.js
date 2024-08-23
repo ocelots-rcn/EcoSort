@@ -42,8 +42,9 @@ const Bin = ({ id }) => {
     <Box
       ref={drop}
       sx={{
-        flex: '0 0 calc(40%)',
-        height: '260px',
+        minHeight: '250px',
+        maxHeight: '500px',
+        minWidth: '220px',
         backgroundColor: isOver ? '#e0e0e0' : 'transparent',
         border: '1px dashed #ccc',
         marginBottom: '10px',
