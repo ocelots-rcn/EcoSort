@@ -5,19 +5,18 @@ import { Box, Typography, Button, Dialog, DialogActions, DialogContent, DialogCo
 
 // Helper functions
 const generateUniqueId = (index) => index + 1;
-const determineCardColor = (index) => index % 2 === 0 ? '#eb7a7a' : '#7ab6eb';
 
 // Define container types
-const ImageContainer = ({ feature_data }) => (
+const ImageContainer = ({ feature_data}) => (
     <Box>
         <img src={feature_data.data} alt="card feature" style={{ maxWidth: '100%', maxHeight: '100%' }} />
-        {feature_data.label && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label}</Typography>}
+        {feature_data.label['en'] && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label['en']}</Typography>}
     </Box>
 );
 
 const SequenceContainer = ({ feature_data }) => (
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label}</Typography>
+        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{feature_data.label['en']}</Typography>
         {[...feature_data.data].map((char, index) => {
             if (char.toLowerCase() === "a") {
                 return <Box key={index} sx={{ padding: '2px', backgroundColor: '#f6db7b' }}>{char}</Box>
@@ -36,9 +35,9 @@ const SequenceContainer = ({ feature_data }) => (
 const TextContainer = ({ feature_data }) => (
     <Box>
         {feature_data.label === "" ?
-            <Typography variant="body2">{feature_data.data}</Typography>
+            <Typography variant="body2">{feature_data.data['en']}</Typography>
             :
-            <Typography variant="body2"><i>{feature_data.label}: </i>{feature_data.data}</Typography>
+            <Typography variant="body2"><i>{feature_data.label['en']}: </i>{feature_data.data['en']}</Typography>
         }
     </Box>
 );
@@ -56,9 +55,8 @@ const transformData = (language) => {
             container: (
                 <Box
                     sx={{
-                        width: '160px',
-                        height: '200px',
-                        backgroundColor: determineCardColor(index),
+                        width: '220px',
+                        backgroundColor: '#EEE',
                         border: '1px solid black',
                         margin: '10px',
                         display: 'flex',
@@ -75,11 +73,7 @@ const transformData = (language) => {
                         } else if (card[name].type === 'sequence') {
                             return <SequenceContainer key={name} feature_data={card[name]} />;
                         } else if (card[name].type === 'text') {
-                            return <TextContainer key={name} feature_data={{
-                                ...card[name],
-                                label: card[name].label ? card[name].label[language] : '',
-                                data: card[name].data[language]
-                            }} />;
+                            return <TextContainer key={name} feature_data={card[name]} />;
                         }
                         return null;
                     })}
