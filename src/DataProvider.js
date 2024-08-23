@@ -45,11 +45,9 @@ const TextContainer = ({ feature_data }) => {
     </Box>
 };
 
-const transformData = (language) => {
+const transformData = () => {
     const cards = dataset.cards || [];
     const groupings = dataset.groupings || {};
-
-    const groupingLabels = Object.keys(groupings).map(key => groupings[key].label[language]);
 
     const transformedCards = cards.reduce((acc, card, index) => {
         acc[index] = {
@@ -89,7 +87,7 @@ const transformData = (language) => {
 
     return {
         cards: transformedCards,
-        groupingLabels,
+        groupings,
     };
 };
 
@@ -98,21 +96,22 @@ const DataContext = createContext();
 
 // Create a provider component
 export const DataProvider = ({ children }) => {
-    const { language } = useContext(LanguageContext);
-
+    const [initialLoad, setInitalLoad] = useState(true)
     const [bins, setBins] = useState([]);
     const [cards, setCards] = useState({});
-    const [groupingLabels, setGroupingLabels] = useState([]);
+    const [groupings, setGroupings] = useState({});
+    const [currentGrouping, setCurrentGrouping] = useState('')
+
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
-    const [selectedIndex, setSelectedIndex] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { cards: transformedCards, groupingLabels: labels } = transformData(language);
+                const { cards: transformedCards, groupings } = transformData();
                 setCards(transformedCards);
-                setGroupingLabels(labels);
+                setGroupings(groupings);
+                setCurrentGrouping(Object.keys(groupings)[0] || '')
 
                 const binsFromDataset = dataset.bins || [];
                 setBins(binsFromDataset.map(bin => ({ id: bin, contents: [] })));
@@ -121,31 +120,29 @@ export const DataProvider = ({ children }) => {
             }
         };
 
-        fetchData();
-        
-    }, [language]);
+        if(initialLoad === true) {
+            fetchData();
+            setInitalLoad(false);
+        }
+    }, [initialLoad]);
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const updateSelectedIndex = (index) => {
-        console.log('Setting Selected Index:', index);
-        setSelectedIndex(index);
-    };
-
-    const checkGrouping = (index) => {
+    const checkGrouping = () => {
+        /*
         if (index === null) {
             setMessage('No grouping selected.');
             setOpen(true);
             return;
         }
+        */
     
-        const selectedGrouping = groupingLabels[index];
-        console.log(`Selected Grouping: ${selectedGrouping}`);
+        console.log(`Current Grouping: ${currentGrouping}`);
     
-        const totalCategories = dataset.groupings[selectedGrouping]?.total_categories || bins.length;
-        const assessmentFunction = dataset.groupings[selectedGrouping]?.assessment_function || 'categorical';
+        const totalCategories = dataset.groupings[currentGrouping]?.total_categories || bins.length;
+        const assessmentFunction = dataset.groupings[currentGrouping]?.assessment_function || 'categorical';
     
         console.log(`Total Categories: ${totalCategories}`);
         console.log(`Assessment Function: ${assessmentFunction}`);
@@ -170,11 +167,11 @@ export const DataProvider = ({ children }) => {
             if (cardsInBin.length === 0) continue;
       
             // Debugging: Check the selected grouping value for cards in the bin
-            const firstCardGroupingValue = cardsInBin[0]?.grouping[selectedGrouping];
+            const firstCardGroupingValue = cardsInBin[0]?.grouping[currentGrouping];
             console.log(`First Card Grouping Value in Bin ${bin.id}: ${firstCardGroupingValue}`);
       
             // Check if all cards in this bin have the same grouping value
-            const allMatch = cardsInBin.every(card => card.grouping[selectedGrouping] === firstCardGroupingValue);
+            const allMatch = cardsInBin.every(card => card.grouping[currentGrouping] === firstCardGroupingValue);
             console.log(`All cards match in Bin ${bin.id}: ${allMatch}`);
       
             if (!allMatch) {
@@ -261,7 +258,7 @@ export const DataProvider = ({ children }) => {
       };
     
       return (
-        <DataContext.Provider value={{bins, setBins, cards, setCards, groupingLabels, checkGrouping, moveCard, selectedIndex, updateSelectedIndex, deleteBin}}>
+        <DataContext.Provider value={{bins, setBins, cards, setCards, groupings, currentGrouping, setCurrentGrouping, checkGrouping, moveCard, deleteBin}}>
           {children}
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Assessment Result</DialogTitle>

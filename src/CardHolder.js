@@ -6,7 +6,7 @@ import { ItemTypes } from './ItemTypes';
 import { useDataContext } from './DataProvider';
 
 const CardHolder = () => {
-  const { cards, moveCard, checkGrouping, selectedIndex} = useDataContext();
+  const { cards, moveCard, checkGrouping} = useDataContext();
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CARD,
@@ -49,7 +49,7 @@ const CardHolder = () => {
             backgroundColor: '#8bc34a',
             color: 'white',
           }}
-          onClick={() => checkGrouping(selectedIndex)}
+          onClick={() => checkGrouping()}
         >
           Run Grouping Assessment
         </Button>

@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 
-import { AppBar, Toolbar, Button, Menu, MenuItem, Box, Grid } from '@mui/material';
+import { AppBar, Toolbar, Button, Menu, MenuItem, Grid } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
@@ -10,19 +11,9 @@ import LanguageContext from './LanguageContext';
 import { useDataContext } from './DataProvider'; // Import DataProvider context hook
 
 const Header = ({ onNewBin }) => {
-  const { translation, setLanguage } = useContext(LanguageContext);
-  const {groupingLabels, updateSelectedIndex } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
-  const [anchorEl, setAnchorEl] = useState(null);
+  const { translation, translateBlock, setLanguage } = useContext(LanguageContext);
+  const {groupings, currentGrouping, setCurrentGrouping } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
   const [langAnchorEl, setLangAnchorEl] = useState(null);
-  const [currentGrouping, setCurrentGrouping] = useState('Select Grouping');
-
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleLangMenuClick = (event) => {
     setLangAnchorEl(event.currentTarget);
@@ -41,15 +32,9 @@ const Header = ({ onNewBin }) => {
     onNewBin();
   };
 
-  const handleGroupingSelect = (index) => {
-    setCurrentGrouping(groupingLabels[index]);
-    updateSelectedIndex(index); // Set the selected index
-    handleMenuClose();
-  };
-
   return (
     <AppBar position="static" sx={{ backgroundColor: '#4a90e2' }}>
-      <Toolbar>
+      <Toolbar sx={{ marginTop: 1}}>
         <Grid container alignItems="center">
           <Grid item xs={4}>
             <Button 
@@ -61,30 +46,18 @@ const Header = ({ onNewBin }) => {
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                variant="contained"
-                sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
-                endIcon={<ArrowDropDownIcon />}
-                onClick={handleMenuClick}
-              >
-                {currentGrouping}
-              </Button>
-              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                {groupingLabels && groupingLabels.length > 0 ? (
-                  groupingLabels.map((grouping, index) => (
-                    <MenuItem 
-                      key={grouping} 
-                      onClick={() => handleGroupingSelect(index)} // Pass the index
-                    >
-                      {grouping}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>No groupings available</MenuItem>
-                )}
-              </Menu>
-            </Box>
+            <FormControl variant="outlined" sx={{ m: 1, minWidth: 180 }}>
+                <InputLabel id="grouping-label">{translation['selectGrouping']}</InputLabel>
+                <Select
+                    sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
+                    labelId="grouping-label"
+                    value={currentGrouping}
+                    onChange={(event) => setCurrentGrouping(event.target.value)}>
+                    {Object.keys(groupings).map((group) =>
+                        <MenuItem key={group} value={group}>{translateBlock(groupings[group].label)}</MenuItem>
+                    )}
+                </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button
