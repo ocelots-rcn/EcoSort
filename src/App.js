@@ -29,8 +29,8 @@ const App = () => {
         <DndProvider backend={HTML5Backend}>
           <Header onNewBin={handleNewBin} />
           <Box sx={{display: 'flex', flexDirection: 'row' }}>
-            <BinBox createNewBin={createNewBin} />
-            <CardHolder />
+          <CardHolder />
+            <BinBox createNewBin={createNewBin} /> 
           </Box>
         </DndProvider>
       </DataProvider>
