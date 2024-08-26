@@ -56,8 +56,9 @@ const transformData = () => {
                 <Box
                     sx={{
                         width: '220px',
-                        backgroundColor: '#EEE',
-                        border: '1px solid black',
+                        borderRadius: '5px',
+                        backgroundColor: 'white',
+                        border: '1px solid rgb(195, 193, 193)',
                         margin: '10px',
                         display: 'flex',
                         flexDirection: 'column',
@@ -65,6 +66,7 @@ const transformData = () => {
                         justifyContent: 'center',
                         padding: '10px',
                         textAlign: 'center',
+                        boxShadow: 2,
                     }}
                 >
                     {Object.keys(card).map(name => {

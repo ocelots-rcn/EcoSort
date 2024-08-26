@@ -22,8 +22,9 @@ const Card = ({ card }) => {
     <div
       ref={drag}
       style={{
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.5 : 0.999,
         cursor: 'move',
+        backgroundColor: 'rgba(255, 255, 255, 0)'
       }}
     >
       {card.container}

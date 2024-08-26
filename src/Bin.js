@@ -44,9 +44,10 @@ const Bin = ({ id }) => {
       sx={{
         minHeight: '250px',
         maxHeight: '500px',
-        minWidth: '220px',
-        backgroundColor: isOver ? '#e0e0e0' : 'transparent',
-        border: '1px dashed #ccc',
+        minWidth: '262px',
+        backgroundColor: isOver ? '#e0e0e0' : 'rgb(0 0 0 / 0.1)',
+        border: '1px solid rgb(0 0 0 / 0.15)',
+        borderRadius: '5px',
         marginBottom: '10px',
         padding: '10px',
         display: 'flex',

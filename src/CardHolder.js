@@ -28,10 +28,11 @@ const CardHolder = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        border: '1px solid #ccc',
+        border: '1px solid rgb(0 0 0 / 0.15)',
         padding: '20px',
         overflowY: 'auto',
         position: 'relative',
+        backgroundColor: 'rgb(0 0 0 / 0.1)'
       }}
     >
       {cardArray.map(card => (
