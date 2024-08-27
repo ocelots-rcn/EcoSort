@@ -6,9 +6,11 @@ import { Box, Button } from '@mui/material';
 
 import Card from './Card';
 import { useDataContext } from '../provider/DataProvider';
+import { useTranslationContext } from '../provider/TranslationProvider';
 
 const CardHolder = () => {
   const { cards, moveCard, checkGrouping } = useDataContext();
+  const { translation } = useTranslationContext();
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CARD,
@@ -34,7 +36,7 @@ const CardHolder = () => {
         padding: '20px',
         overflowY: 'auto',
         position: 'relative',
-        backgroundColor: 'rgb(0 0 0 / 0.2)'
+        backgroundColor: isOver ? 'rgb(0 0 0 / 0.2)' : 'rgb(0 0 0 / 0.2)',
       }}
     >
       {cardArray.map(card => (
@@ -55,7 +57,7 @@ const CardHolder = () => {
           }}
           onClick={() => checkGrouping()}
         >
-          Run Grouping Assessment
+          {translation['checkGrouping']}
         </Button>
       )}
     </Box>
