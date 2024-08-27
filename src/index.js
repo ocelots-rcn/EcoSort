@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { DataProvider } from './DataProvider';
-import { LanguageProvider } from './LanguageContext'; // Import LanguageProvider
+import { DataProvider } from './provider/DataProvider';
+import { TranslationProvider } from './provider/TranslationProvider'; // Import LanguageProvider
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LanguageProvider> 
+    <TranslationProvider>
       <DataProvider>
         <App />
       </DataProvider>
-    </LanguageProvider>
+    </TranslationProvider>
   </React.StrictMode>
 );
 

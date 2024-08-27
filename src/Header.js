@@ -7,12 +7,12 @@ import InputLabel from '@mui/material/InputLabel';
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-import LanguageContext from './LanguageContext';
-import { useDataContext } from './DataProvider'; // Import DataProvider context hook
+import { useTranslationContext } from './provider/TranslationProvider';
+import { useDataContext } from './provider/DataProvider'; // Import DataProvider context hook
 
 const Header = () => {
-  const { translation, translateBlock, setLanguage } = useContext(LanguageContext);
-  const {groupings, currentGrouping, setCurrentGrouping, createNewBin} = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
+  const { translation, translateBlock, setLanguage } = useTranslationContext();
+  const { groupings, currentGrouping, setCurrentGrouping, createNewBin } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
   const [langAnchorEl, setLangAnchorEl] = useState(null);
 
   const handleLangMenuClick = (event) => {
@@ -30,12 +30,12 @@ const Header = () => {
 
   return (
     <AppBar position="static" sx={{ backgroundColor: '#4a90e2' }}>
-      <Toolbar sx={{ marginTop: 1}}>
+      <Toolbar sx={{ marginTop: 1 }}>
         <Grid container alignItems="center">
           <Grid item xs={4}>
-            <Button 
-              onClick={createNewBin} 
-              variant="contained" 
+            <Button
+              onClick={createNewBin}
+              variant="contained"
               sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
             >
               {translation.newBin}
@@ -43,16 +43,16 @@ const Header = () => {
           </Grid>
           <Grid item xs={6}>
             <FormControl variant="outlined" sx={{ m: 1, minWidth: 180 }}>
-                <InputLabel id="grouping-label">{translation['selectGrouping']}</InputLabel>
-                <Select
-                    sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
-                    labelId="grouping-label"
-                    value={currentGrouping}
-                    onChange={(event) => setCurrentGrouping(event.target.value)}>
-                    {Object.keys(groupings).map((group) =>
-                        <MenuItem key={group} value={group}>{translateBlock(groupings[group].label)}</MenuItem>
-                    )}
-                </Select>
+              <InputLabel id="grouping-label">{translation['selectGrouping']}</InputLabel>
+              <Select
+                sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
+                labelId="grouping-label"
+                value={currentGrouping}
+                onChange={(event) => setCurrentGrouping(event.target.value)}>
+                {Object.keys(groupings).map((group) =>
+                  <MenuItem key={group} value={group}>{translateBlock(groupings[group].label)}</MenuItem>
+                )}
+              </Select>
             </FormControl>
           </Grid>
           <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>

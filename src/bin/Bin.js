@@ -1,14 +1,16 @@
 import React, { useContext } from 'react';
+import { useDrop } from 'react-dnd';
+import { ItemTypes } from '../card/ItemTypes';
+
 import { Box, Typography, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import Card from './Card';
-import { useDrop } from 'react-dnd';
-import { ItemTypes } from './ItemTypes';
-import { useDataContext } from './DataProvider';
-import LanguageContext from './LanguageContext';
+
+import Card from '../card/Card';
+import { useDataContext } from '../provider/DataProvider';
+import { useTranslationContext } from '../provider/TranslationProvider';
 
 const Bin = ({ id }) => {
-  const { translation } = useContext(LanguageContext);
+  const { translation } = useTranslationContext();
   const { bins, cards, moveCard, deleteBin } = useDataContext();
 
   const bin = bins.find(bin => bin.id === id);

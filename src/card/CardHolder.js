@@ -1,12 +1,14 @@
 import React from 'react';
-import { Box, Button } from '@mui/material';
-import Card from './Card';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
-import { useDataContext } from './DataProvider';
+
+import { Box, Button } from '@mui/material';
+
+import Card from './Card';
+import { useDataContext } from '../provider/DataProvider';
 
 const CardHolder = () => {
-  const { cards, moveCard, checkGrouping} = useDataContext();
+  const { cards, moveCard, checkGrouping } = useDataContext();
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.CARD,
@@ -32,7 +34,7 @@ const CardHolder = () => {
         padding: '20px',
         overflowY: 'auto',
         position: 'relative',
-        backgroundColor: 'rgb(0 0 0 / 0.1)'
+        backgroundColor: 'rgb(0 0 0 / 0.2)'
       }}
     >
       {cardArray.map(card => (
