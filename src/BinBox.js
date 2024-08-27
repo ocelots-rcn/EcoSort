@@ -1,23 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
+
 import Bin from './Bin';
 import { useDataContext } from './DataProvider'; // Adjust the path as necessary
 
-const BinBox = ({ createNewBin }) => {
-  const { bins, setBins, cards, setCards } = useDataContext(); // Use context to get bins, cards, and setBins
-
-  // Handle creating a new bin
-  const handleNewBin = () => {
-    const newBinId = bins.length + 1;
-    setBins(prevBins => [...prevBins, { id: newBinId, contents: [] }]); // Initialize contents
-  };
-  
-
-  useEffect(() => {
-    if (createNewBin) {
-      handleNewBin();
-    }
-  }, [createNewBin]);
+const BinBox = () => {
+  const { bins } = useDataContext(); // Use context to get bins, cards, and setBins
 
   return (
       <Box sx={{

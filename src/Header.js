@@ -10,9 +10,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import LanguageContext from './LanguageContext';
 import { useDataContext } from './DataProvider'; // Import DataProvider context hook
 
-const Header = ({ onNewBin }) => {
+const Header = () => {
   const { translation, translateBlock, setLanguage } = useContext(LanguageContext);
-  const {groupings, currentGrouping, setCurrentGrouping } = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
+  const {groupings, currentGrouping, setCurrentGrouping, createNewBin} = useDataContext(); // Access groupingLabels and checkGrouping from DataProvider
   const [langAnchorEl, setLangAnchorEl] = useState(null);
 
   const handleLangMenuClick = (event) => {
@@ -28,17 +28,13 @@ const Header = ({ onNewBin }) => {
     handleLangMenuClose();
   };
 
-  const handleNewBinClick = () => {
-    onNewBin();
-  };
-
   return (
     <AppBar position="static" sx={{ backgroundColor: '#4a90e2' }}>
       <Toolbar sx={{ marginTop: 1}}>
         <Grid container alignItems="center">
           <Grid item xs={4}>
             <Button 
-              onClick={handleNewBinClick} 
+              onClick={createNewBin} 
               variant="contained" 
               sx={{ backgroundColor: '#8bc34a', color: '#fff' }}
             >

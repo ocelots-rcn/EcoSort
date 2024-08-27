@@ -128,6 +128,12 @@ export const DataProvider = ({ children }) => {
         }
     }, [initialLoad]);
 
+    // Handle creating a new bin
+    const createNewBin = () => {
+        const newBinId = bins.length + 1;
+        setBins(prevBins => [...prevBins, { id: newBinId, contents: [] }]); // Initialize contents
+    };
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -260,7 +266,7 @@ export const DataProvider = ({ children }) => {
       };
     
       return (
-        <DataContext.Provider value={{bins, setBins, cards, setCards, groupings, currentGrouping, setCurrentGrouping, checkGrouping, moveCard, deleteBin}}>
+        <DataContext.Provider value={{bins, setBins, cards, setCards, groupings, currentGrouping, setCurrentGrouping, createNewBin, checkGrouping, moveCard, deleteBin}}>
           {children}
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Assessment Result</DialogTitle>

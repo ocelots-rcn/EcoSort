@@ -23,7 +23,7 @@ const CardHolder = () => {
     <Box
       ref={drop}
       sx={{
-        minWidth: '220px',
+        minWidth: '262px',
         maxHeight: '90vh',
         display: 'flex',
         flexDirection: 'column',
