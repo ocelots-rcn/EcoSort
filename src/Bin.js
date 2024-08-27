@@ -39,13 +39,15 @@ const Bin = ({ id }) => {
   };
 
   return (
+    /* Main container */
     <Box
       ref={drop}
       sx={{
-        minHeight: '250px',
-        maxHeight: '500px',
         minWidth: '262px',
-        backgroundColor: isOver ? '#e0e0e0' : 'rgb(0 0 0 / 0.1)',
+        height: 'fit-content',
+        minHeight: '300px',
+        maxHeight: '600px',
+        backgroundColor: isOver ? 'rgb(0 0 0 / 0.1)' : 'rgb(0 0 0 / 0.2)',
         border: '1px solid rgb(0 0 0 / 0.15)',
         borderRadius: '5px',
         marginBottom: '10px',
@@ -55,6 +57,7 @@ const Bin = ({ id }) => {
         position: 'relative',
       }}
     >
+      {/*Header container */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h6" sx={{ marginBottom: '10px' }}>{translation['group']} {id}</Typography>
         <IconButton
@@ -72,17 +75,17 @@ const Bin = ({ id }) => {
           <CloseIcon fontSize="small" />
         </IconButton>
       </Box>
+      {/* Card Container */}
       <Box
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
           gap: '10px',
-          maxHeight: binCards.length > 1 ? 'calc(100% - 40px)' : 'auto',
           overflowY: binCards.length > 1 ? 'auto' : 'hidden',
         }}
       >
         {binCards.map(card => (
-          <Card key={card.id} card={card} sx={{ marginBottom: '10px', flex: '0 0 calc(50% - 5px)' }} />
+          <Card key={card.id} card={card} />
         ))}
       </Box>
     </Box>

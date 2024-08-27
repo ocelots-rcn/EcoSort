@@ -8,8 +8,8 @@ const ImageContainer = ({ feature_data}) => {
     const languageContext = useContext(LanguageContext);
 
     return <Box>
-        <img src={feature_data.data} alt="card feature" style={{ maxWidth: '200px', maxHeight: '200px' }} />
         {feature_data.label['en'] && <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{languageContext.translateBlock(feature_data.label)}</Typography>}
+        <img src={feature_data.data} alt="card feature" style={{ maxWidth: '200px', maxHeight: '200px' }} />
     </Box>
 };
 
