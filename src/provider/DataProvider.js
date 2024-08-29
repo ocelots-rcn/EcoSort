@@ -6,12 +6,16 @@ import { ImageContainer, SequenceContainer, TextContainer } from '../card/Featur
 import dataset from './DataSet'; // Adjust the path as necessary
 
 const transformData = () => {
-  const cards = dataset.cards || [];
+  const cards = [...dataset.cards] || [];
   const groupings = dataset.groupings || {};
 
-  const transformedCards = cards.reduce((acc, card, index) => {
-    acc[index] = {
-      id: index,
+  const deck = {};
+  let id = 0;
+  while(cards.length > 0) {
+    let index = Math.floor(Math.random() * cards.length) - 1;
+    let card = cards.splice(index, 1)[0];
+    deck[id] = {
+      id: id,
       container: (
         <Box
           sx={{
@@ -44,11 +48,11 @@ const transformData = () => {
       location: 'original',
       grouping: card.grouping
     };
-    return acc;
-  }, {});
+    id += 1;
+  }
 
   return {
-    cards: transformedCards,
+    deck,
     groupings,
   };
 };
@@ -71,23 +75,15 @@ const DataProvider = ({ children }) => {
   const { translation, translateBlock } = useTranslationContext();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { cards: transformedCards, groupings } = transformData();
-        setCards(transformedCards);
-        setGroupings(groupings);
-        setCurrentGrouping(Object.keys(groupings)[0] || '')
-
-        const binsFromDataset = dataset.bins || [];
-        setBins(binsFromDataset.map(bin => ({ id: bin, contents: [] })));
-      } catch (error) {
-        console.error('Error in fetching data:', error);
-      }
-    };
-
     if (initialLoad === true) {
-      fetchData();
       setInitalLoad(false);
+      const { deck, groupings } = transformData();
+      setCards(deck);
+      setGroupings(groupings);
+      setCurrentGrouping(Object.keys(groupings)[0] || '')
+
+      const binsFromDataset = dataset.bins || [];
+      setBins(binsFromDataset.map(bin => ({ id: bin, contents: [] })));
     }
   }, [initialLoad]);
 
