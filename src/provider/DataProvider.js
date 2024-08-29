@@ -15,7 +15,7 @@ const transformData = () => {
       container: (
         <Box
           sx={{
-            width: '220px',
+            width: '200px',
             borderRadius: '5px',
             backgroundColor: 'white',
             border: '1px solid rgb(195, 193, 193)',
