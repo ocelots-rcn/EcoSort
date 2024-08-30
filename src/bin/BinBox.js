@@ -14,7 +14,7 @@ const BinBox = () => {
       flex: 1,
       flexWrap: 'wrap',
       gap: '12px',
-      justifyContent: 'left',
+      justifyContent: 'center',
       alignContent: 'baseline',
       maxHeight: '80vh',
       overflowY: 'auto',
