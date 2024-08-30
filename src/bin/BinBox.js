@@ -17,7 +17,7 @@ const BinBox = () => {
       justifyContent: 'left',
       maxHeight: '80vh',
       overflowY: 'auto',
-      height: '100vh'
+      minHeight: '100vh'
     }}>
       {bins.map(bin => (
         <Bin key={bin.id} id={bin.id} />
