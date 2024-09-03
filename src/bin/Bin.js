@@ -45,14 +45,13 @@ const Bin = ({ id }) => {
     <Box
       ref={drop}
       sx={{
-        minWidth: '262px',
+        minWidth: '242px',
         height: 'fit-content',
-        minHeight: '300px',
-        maxHeight: '600px',
+        minHeight: '329px',
+        maxHeight: '627px',
         backgroundColor: isOver ? 'rgb(0 0 0 / 0.1)' : 'rgb(0 0 0 / 0.2)',
         border: '1px solid rgb(0 0 0 / 0.15)',
         borderRadius: '5px',
-        marginBottom: '10px',
         padding: '10px',
         display: 'flex',
         flexDirection: 'column',
@@ -60,13 +59,12 @@ const Bin = ({ id }) => {
       }}
     >
       {/*Header container */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ marginBottom: '10px' }}>{translation['group']} {id}</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px'}}>
+        <Typography variant="h2" sx={{ lineHeight: '1', fontWeight: '500', fontSize: '1.25rem', letterSpacing: '0.0075em',}}>{translation['group']} {id}</Typography>
         <IconButton
           onClick={handleDeleteBin}
           size="small"
           sx={{
-            padding: '4px',
             marginLeft: 'auto',
             '&:hover': {
               color: 'red',
@@ -84,6 +82,7 @@ const Bin = ({ id }) => {
           flexWrap: 'wrap',
           gap: '10px',
           overflowY: binCards.length > 1 ? 'auto' : 'hidden',
+          paddingBottom: '4px',
         }}
       >
         {binCards.map(card => (

@@ -13,10 +13,12 @@ const BinBox = () => {
       display: 'flex',
       flex: 1,
       flexWrap: 'wrap',
-      gap: '10px',
+      gap: '12px',
       justifyContent: 'center',
+      alignContent: 'baseline',
       maxHeight: '80vh',
-      overflowY: 'auto'
+      overflowY: 'auto',
+      minHeight: '100vh'
     }}>
       {bins.map(bin => (
         <Bin key={bin.id} id={bin.id} />
