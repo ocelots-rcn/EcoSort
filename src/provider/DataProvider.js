@@ -82,7 +82,13 @@ const DataProvider = ({ children }) => {
       setCurrentGrouping(Object.keys(groupings)[0] || '')
 
       const binsFromDataset = dataset.bins || [];
-      setBins(binsFromDataset.map(bin => ({ id: bin, contents: [] })));
+      //Initialize with one bin showing
+      if(binsFromDataset.length === 0) {
+        setBins([{ id: 1, contents: [] }]);
+      }
+      else {
+        setBins(binsFromDataset.map(bin => ({ id: bin, contents: [] })));
+      }
     }
   }, [initialLoad]);
 

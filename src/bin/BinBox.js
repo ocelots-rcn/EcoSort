@@ -1,30 +1,32 @@
 import React from 'react';
-import { Box } from '@mui/material';
+
+import Box from '@mui/material/Box';
 
 import Bin from './Bin';
-import { useDataContext } from '../provider/DataProvider'; // Adjust the path as necessary
+import ButtonBar from '../header/ButtonBar';
+import { useDataContext } from '../provider/DataProvider';
 
 const BinBox = () => {
   const { bins } = useDataContext(); // Use context to get bins, cards, and setBins
 
-  return (
+  return <Box sx={{padding: 1, flex: 1,}}>
+    <ButtonBar />
     <Box sx={{
-      padding: 3,
+      padding: 2,
       display: 'flex',
-      flex: 1,
       flexWrap: 'wrap',
       gap: '12px',
       justifyContent: 'center',
       alignContent: 'baseline',
+      minHeight: '90vh',
       maxHeight: '80vh',
-      overflowY: 'auto',
-      minHeight: '100vh'
+      overflowY: 'auto'
     }}>
       {bins.map(bin => (
         <Bin key={bin.id} id={bin.id} />
       ))}
     </Box>
-  );
+  </Box>
 };
 
 export default BinBox;

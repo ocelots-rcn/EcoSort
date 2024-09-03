@@ -4,14 +4,12 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import Box from '@mui/material/Box';
 
-import Header from './Header';
 import CardHolder from './card/CardHolder';
 import BinBox from './bin/BinBox';
 
 
 const App = () => {
   return <DndProvider backend={HTML5Backend}>
-    <Header />
     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
       <CardHolder />
       <BinBox />
