@@ -16,7 +16,7 @@ const NewBinButton = () => {
 
   return <Box sx={{display: 'flex', flexDirection: 'row'}}>
     <Tooltip title={translation.newBin}>
-      <Button onClick={createNewBin} color="primary" endIcon={<AddBox />}>
+      <Button variant="contained" onClick={createNewBin} color="primary" endIcon={<AddBox />}>
         {translation.group}
       </Button>
     </Tooltip>
