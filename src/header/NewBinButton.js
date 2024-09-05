@@ -15,13 +15,10 @@ const NewBinButton = () => {
 
   return <Box sx={{display: 'flex', flexDirection: 'row'}}>
     <Tooltip title={translation.newBin}>
-      <IconButton onClick={createNewBin} >
-        <AddBox />
+      <IconButton onClick={createNewBin} sx={{borderRadius: '3px'}} >
+        <Box sx={{marginRight: '0.2rem'}}>{translation.group}</Box><AddBox />
       </IconButton>
     </Tooltip>
-    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
-      {translation.group}
-    </Box>
   </Box>
 }
 
