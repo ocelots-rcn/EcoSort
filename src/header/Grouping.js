@@ -21,11 +21,10 @@ const Grouping = () => {
   const { currentGrouping, groupings, setCurrentGrouping } = useDataContext();
 
   return <Box sx={{display: 'flex', flexDirection: 'row'}}>
-    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
-      {translation.groupBy} {groupings[currentGrouping] && translateBlock(groupings[currentGrouping].label)}
-    </Box>
+    <Box sx={{alignContent: 'center', color: 'rgba(0, 0, 0, 0.54)'}}>{translation.groupBy}</Box>
     <Tooltip title={translation.selectGrouping}>
-      <IconButton onClick={() => setOpen(true)}>
+      <IconButton onClick={() => setOpen(true)} sx={{borderRadius: '3px'}}>
+       <Box sx={{paddingRight: '0.2rem', }}>{groupings[currentGrouping] && translateBlock(groupings[currentGrouping].label)}</Box>
         <Settings />
       </IconButton>
     </Tooltip>
