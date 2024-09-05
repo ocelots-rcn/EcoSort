@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -21,12 +21,11 @@ const Grouping = () => {
   const { currentGrouping, groupings, setCurrentGrouping } = useDataContext();
 
   return <Box sx={{display: 'flex', flexDirection: 'row'}}>
-    <Box sx={{alignContent: 'center', color: 'rgba(0, 0, 0, 0.54)'}}>{translation.groupBy}</Box>
+    <Box sx={{alignContent: 'center', color: 'rgba(0, 0, 0, 0.54)', marginBottom: '2px'}}>{translation.groupBy}</Box>
     <Tooltip title={translation.selectGrouping}>
-      <IconButton onClick={() => setOpen(true)} sx={{borderRadius: '3px'}}>
-       <Box sx={{paddingRight: '0.2rem', }}>{groupings[currentGrouping] && translateBlock(groupings[currentGrouping].label)}</Box>
-        <Settings />
-      </IconButton>
+      <Button onClick={() => setOpen(true)} endIcon={<Settings />}>
+       {groupings[currentGrouping] && translateBlock(groupings[currentGrouping].label)}
+      </Button>
     </Tooltip>
     <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle>{translation.selectGrouping}</DialogTitle>
