@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from './ItemTypes';
 
-import { Box, Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 import Card from './Card';
+import ItemTypes from './ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
 
@@ -28,7 +29,7 @@ const CardHolder = () => {
       ref={drop}
       sx={{
         minWidth: '262px',
-        maxHeight: '90vh',
+        maxHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

@@ -1,5 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import { useTranslationContext } from './TranslationProvider'; // Correct path to LanguageContext
 import { ImageContainer, SequenceContainer, TextContainer } from '../card/FeatureContainers';

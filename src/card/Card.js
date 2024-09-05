@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDrag } from 'react-dnd';
-import { ItemTypes } from './ItemTypes'; // Import item types
+
+import ItemTypes from './ItemTypes'; // Import item types
 
 const Card = ({ card }) => {
   const [{ isDragging }, drag] = useDrag(() => ({

@@ -1,11 +1,14 @@
 import React from 'react';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from '../card/ItemTypes';
 
-import { Box, Typography, IconButton } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+
 import CloseIcon from '@mui/icons-material/Close';
 
 import Card from '../card/Card';
+import ItemTypes from '../card/ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
 
