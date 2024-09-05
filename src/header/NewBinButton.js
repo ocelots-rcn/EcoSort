@@ -2,9 +2,7 @@ import React from 'react';
 
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-
 import AddBox from '@mui/icons-material/AddBox';
 
 import { useTranslationContext } from '../provider/TranslationProvider';
@@ -16,7 +14,7 @@ const NewBinButton = () => {
 
   return <Box sx={{display: 'flex', flexDirection: 'row'}}>
     <Tooltip title={translation.newBin}>
-      <Button variant="contained" onClick={createNewBin} color="primary" endIcon={<AddBox />}>
+      <Button variant="contained" onClick={createNewBin} color="primary" startIcon={<AddBox />}>
         {translation.group}
       </Button>
     </Tooltip>
