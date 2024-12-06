@@ -31,6 +31,10 @@ const translations = {
         'fr': 'French'
       }
     },
+    dataset: {
+        'error': 'Error',
+        'failed': 'Failed to load dataset.'
+    },
     group: 'Group',
     newBin: 'New Group',
     groupBy: 'Group by:',
@@ -56,6 +60,10 @@ const translations = {
         'fr': 'Francés'
       }
     },
+    dataset: {
+        'error': 'Error',
+        'failed': 'No se pudo cargar el conjunto de datos.'
+    },
     group: 'Grupo',
     newBin: 'Nuevo Grupo',
     groupBy: 'Agrupar por:',
@@ -80,6 +88,10 @@ const translations = {
         'es': 'Espagnole',
         'fr': 'Française'
       }
+    },
+    dataset: {
+        'error': 'Erreur',
+        'failed': 'Échec du chargement de l\'ensemble de données.'
     },
     group: 'Groupe',
     newBin: 'Nouveau Groupe',

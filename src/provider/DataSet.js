@@ -63,7 +63,7 @@ var dataset = {
       },
       "grouping": {
         "Morphology": "Dilaticollis",
-        "DNA": "D_Cryptic1",
+        "DNA": "D_Cryptic1"
       }
     },
     {
@@ -94,7 +94,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Dilaticollis",
-          "DNA": "D_Cryptic1",
+          "DNA": "D_Cryptic1"
         }
       },
       {
@@ -125,7 +125,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Dilaticollis",
-          "DNA": "D_Cryptic2",
+          "DNA": "D_Cryptic2"
         }
       },
       {
@@ -156,7 +156,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Dilaticollis",
-          "DNA": "D_Cryptic7",
+          "DNA": "D_Cryptic7"
         }
       },
       {
@@ -187,7 +187,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Trivittata",
-          "DNA": "T_Cryptic1",
+          "DNA": "T_Cryptic1"
         }
       },
       {
@@ -218,7 +218,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Trivittata",
-          "DNA": "T_Cryptic1",
+          "DNA": "T_Cryptic1"
         }
       },
       {
@@ -249,7 +249,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Trivittata",
-          "DNA": "T_Cryptic2",
+          "DNA": "T_Cryptic2"
         }
       },
       {
@@ -280,7 +280,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Trivittata",
-          "DNA": "T_Cryptic3",
+          "DNA": "T_Cryptic3"
         }
       },
       {
@@ -311,7 +311,7 @@ var dataset = {
         },
         "grouping": {
           "Morphology": "Trivittata",
-          "DNA": "T_Cryptic4",
+          "DNA": "T_Cryptic4"
         }
       }
   ]

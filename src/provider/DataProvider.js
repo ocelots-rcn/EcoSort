@@ -26,11 +26,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import axios from 'axios';
+
 import { useTranslationContext } from './TranslationProvider'; // Correct path to LanguageContext
 import { ImageContainer, SequenceContainer, TextContainer } from '../card/FeatureContainers';
-import dataset from './DataSet'; // Adjust the path as necessary
+import defaultDataSet from './DataSet';
 
-const transformData = () => {
+const transformData = (dataset) => {
   const cards = [...dataset.cards] || [];
   const groupings = dataset.groupings || {};
 
@@ -96,24 +98,36 @@ const DataProvider = ({ children }) => {
   const [correct, setCorrect] = useState(false);
   const [message, setMessage] = useState('');
 
+  const [error, setError] = useState(false);
+
   const { translation, translateBlock } = useTranslationContext();
+
+  const loadData = (dataset) => {
+    const { deck, groupings } = transformData(dataset);
+    setCards(deck);
+    setGroupings(groupings);
+    setCurrentGrouping(Object.keys(groupings)[0] || '')
+
+    //Initialize with one bin showing
+    setBins([{ id: 1, contents: [] }]);
+  }
 
   useEffect(() => {
     if (initialLoad === true) {
       setInitalLoad(false);
-      const { deck, groupings } = transformData();
-      setCards(deck);
-      setGroupings(groupings);
-      setCurrentGrouping(Object.keys(groupings)[0] || '')
-
-      const binsFromDataset = dataset.bins || [];
-      //Initialize with one bin showing
-      if(binsFromDataset.length === 0) {
-        setBins([{ id: 1, contents: [] }]);
+      const searchParams = new URLSearchParams(window.location.search);
+      const url = searchParams.get('ds');
+      if(url !== null) {
+        axios.get(window.location.protocol + '//' + url).then(response => {
+            loadData(response.data);
+        }).catch(error => {
+          setError(true);
+        })
       }
       else {
-        setBins(binsFromDataset.map(bin => ({ id: bin, contents: [] })));
+        loadData(defaultDataSet);
       }
+      
     }
   }, [initialLoad]);
 
@@ -166,8 +180,8 @@ const DataProvider = ({ children }) => {
   const checkGrouping = () => {
     console.log(`Current Grouping: ${currentGrouping}`);
 
-    const totalCategories = dataset.groupings[currentGrouping]?.total_categories || bins.length;
-    const assessmentFunction = dataset.groupings[currentGrouping]?.assessment_function || 'categorical';
+    const totalCategories = groupings[currentGrouping]?.total_categories || bins.length;
+    const assessmentFunction = groupings[currentGrouping]?.assessment_function || 'categorical';
 
     console.log(`Total Categories: ${totalCategories}`);
     console.log(`Assessment Function: ${assessmentFunction}`);
@@ -267,6 +281,15 @@ const DataProvider = ({ children }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">Close</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={error} onClose={() => setError(false)}>
+        <DialogTitle>{translation.dataset['error']}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{translation.dataset['failed']}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setError(false)} color="primary">Close</Button>
         </DialogActions>
       </Dialog>
     </DataContext.Provider>
