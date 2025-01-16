@@ -16,8 +16,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React from 'react';
-import { useDrop } from 'react-dnd';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -38,24 +36,9 @@ const Bin = ({ id }) => {
 
   const binCards = bin?.contents?.map(cardId => cards[cardId]) || [];
 
-  const handleDrop = (card) => {
-    const sourceLocation = cards[card.id]?.location;
-    if (sourceLocation !== id) {
-      moveCard(card.id, id);
-    }
-  };
+ //setNodeRef
+  const isOver = false; //fix
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.CARD,
-    drop: (item) => {
-      if (!bin.contents.includes(item.card.id)) {  // Check if card is already in the bin
-        handleDrop(item.card);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  }));
 
   const handleDeleteBin = () => {
     deleteBin(id);
@@ -64,7 +47,7 @@ const Bin = ({ id }) => {
   return (
     /* Main container */
     <Box
-      ref={drop}
+      // ref={set} //setNodeRef
       sx={{
         minWidth: '242px',
         height: 'fit-content',

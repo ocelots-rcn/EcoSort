@@ -16,19 +16,27 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React, { useEffect } from 'react';
-import { useDrag } from 'react-dnd';
+import { useEffect } from 'react';
 
 import ItemTypes from './ItemTypes'; // Import item types
+import { useDraggable } from "@dnd-kit/core";
 
-const Card = ({ card }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
+/* const Card = ({ card }) => {
+  const [{ isDragging }, drag] = () => ({
     type: ItemTypes.CARD,
     item: { card },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }));
+  }); */
+
+  const Card = ({ card }) => {
+    
+    /* const { attributes, listeners, setNodeRef } = useDraggable({
+      id: props.id,
+    }); */
+  
+    const isDragging = false; //fix
 
   useEffect(() => {
     if (isDragging) {
@@ -39,7 +47,7 @@ const Card = ({ card }) => {
 
   return (
     <div
-      ref={drag}
+      // ref={drag}
       style={{
         opacity: isDragging ? 0.5 : 0.999,
         cursor: 'move',

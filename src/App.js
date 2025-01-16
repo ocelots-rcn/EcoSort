@@ -16,9 +16,9 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+
+import { useState } from 'react';
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 
 import Box from '@mui/material/Box';
 
@@ -27,12 +27,32 @@ import BinBox from './bin/BinBox';
 
 
 const App = () => {
-  return <DndProvider backend={HTML5Backend}>
-    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-      <CardHolder />
-      <BinBox />
-    </Box>
-  </DndProvider>
+  const [activeId, setActiveId] = useState(null);
+  const [parent, setParent] = useState(null);
+
+  return (
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <CardHolder />
+        <BinBox />
+      </Box>
+    </DndContext>
+  )
+
+  function handleDragStart(event) {
+    setActiveId(event.active.id);
+  }
+  
+  function handleDragEnd(event) {
+    setActiveId(null);
+    const { over } = event;
+  
+    // If the item is dropped over a container, set it as the parent
+    // otherwise reset the parent to `null`
+    setParent(over ? over.id : null);
+  }
 };
+
+
 
 export default App;

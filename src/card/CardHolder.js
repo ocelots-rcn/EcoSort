@@ -16,35 +16,30 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React from 'react';
-import { useDrop } from 'react-dnd';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { useDroppable } from "@dnd-kit/core";
 
 import Card from './Card';
 import ItemTypes from './ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
 
-const CardHolder = () => {
+const CardHolder = (props) => {
   const { cards, moveCard, checkGrouping } = useDataContext();
   const { translation } = useTranslationContext();
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.CARD,
-    drop: (item) => moveCard(item.card.id, 'original'),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  }));
+  const { isOver, setNodeRef } = useDroppable({
+    id: props.id,
+  });
 
   const cardArray = Object.values(cards).filter(card => card.location === 'original');
   const isCardHolderEmpty = cardArray.length === 0;
 
   return (
     <Box
-      ref={drop}
+      ref={setNodeRef}
       sx={{
         minWidth: '262px',
         maxHeight: '100vh',
