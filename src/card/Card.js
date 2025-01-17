@@ -21,10 +21,10 @@ import { useEffect } from 'react';
 import ItemTypes from './ItemTypes'; // Import item types
 import { useDraggable } from "@dnd-kit/core";
 
-  const Card = ({ props }) => {
+  const Card = ({ card }) => {
     
     const { attributes, listeners, setNodeRef } = useDraggable({
-      id: props.id,
+      id: card.id,
     }); 
   
     const isDragging = false; //fix
@@ -38,7 +38,7 @@ import { useDraggable } from "@dnd-kit/core";
         backgroundColor: 'rgba(255, 255, 255, 0)'
       }}
     >
-      {props.container}
+      {card.container}
     </div>
   );
 };

@@ -33,10 +33,11 @@ const CardHolder = (props) => {
   const { isOver, setNodeRef } = useDroppable({
     id: props.id,
   });
+  console.log(cards)
 
   const cardArray = Object.values(cards).filter(card => card.location === 'original');
   const isCardHolderEmpty = cardArray.length === 0;
-
+console.log(cardArray)
   return (
     <Box
       ref={setNodeRef}
@@ -54,10 +55,9 @@ const CardHolder = (props) => {
         backgroundColor: isOver ? 'rgb(0 0 0 / 0.2)' : 'rgb(0 0 0 / 0.2)',
       }}
     >
-      {/* {cardArray.map(card => (
+  {cardArray.map(card => (
         <Card key={card.id} card={card} />
-      ))} */}
-      {props.children}
+      ))}
 
       {isCardHolderEmpty && cards.length > 0 && (
         <Button
