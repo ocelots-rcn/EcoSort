@@ -54,9 +54,10 @@ const CardHolder = (props) => {
         backgroundColor: isOver ? 'rgb(0 0 0 / 0.2)' : 'rgb(0 0 0 / 0.2)',
       }}
     >
-      {cardArray.map(card => (
+      {/* {cardArray.map(card => (
         <Card key={card.id} card={card} />
-      ))}
+      ))} */}
+      {props.children}
 
       {isCardHolderEmpty && cards.length > 0 && (
         <Button

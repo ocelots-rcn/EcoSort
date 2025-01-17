@@ -21,29 +21,13 @@ import { useEffect } from 'react';
 import ItemTypes from './ItemTypes'; // Import item types
 import { useDraggable } from "@dnd-kit/core";
 
-/* const Card = ({ card }) => {
-  const [{ isDragging }, drag] = () => ({
-    type: ItemTypes.CARD,
-    item: { card },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }); */
-
-  const Card = ({ card }) => {
+  const Card = ({ props }) => {
     
-    /* const { attributes, listeners, setNodeRef } = useDraggable({
+    const { attributes, listeners, setNodeRef } = useDraggable({
       id: props.id,
-    }); */
+    }); 
   
     const isDragging = false; //fix
-
-  useEffect(() => {
-    if (isDragging) {
-      // Log card information when dragging starts or updates
-      console.log('Dragging Card:', { id: card.id, location: card.location });
-    }
-  }, [isDragging, card]);
 
   return (
     <div
@@ -54,7 +38,7 @@ import { useDraggable } from "@dnd-kit/core";
         backgroundColor: 'rgba(255, 255, 255, 0)'
       }}
     >
-      {card.container}
+      {props.container}
     </div>
   );
 };

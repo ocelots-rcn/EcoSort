@@ -24,16 +24,32 @@ import Box from '@mui/material/Box';
 
 import CardHolder from './card/CardHolder';
 import BinBox from './bin/BinBox';
+import Card2 from './card/Card2';
 
 
 const App = () => {
   const [activeId, setActiveId] = useState(null);
   const [parent, setParent] = useState(null);
 
+  const items = [
+    {
+      id: 1,
+      content: "item 1"
+    },
+    {
+      id: 2,
+      content: 'item 2'
+    }
+  ]
+
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <CardHolder />
+        <CardHolder>
+          {items.map((item) => (
+            <Card2 key={item.id} id={item.id} content={item.content}></Card2>
+          ))}
+        </CardHolder>
         <BinBox />
       </Box>
     </DndContext>
@@ -42,11 +58,11 @@ const App = () => {
   function handleDragStart(event) {
     setActiveId(event.active.id);
   }
-  
+
   function handleDragEnd(event) {
     setActiveId(null);
     const { over } = event;
-  
+
     // If the item is dropped over a container, set it as the parent
     // otherwise reset the parent to `null`
     setParent(over ? over.id : null);
