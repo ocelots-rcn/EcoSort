@@ -63,7 +63,7 @@ const CardHolder = () => {
         <Card key={card.id} card={card} />
       ))}
 
-      {isCardHolderEmpty && cards.length > 0 && (
+      {isCardHolderEmpty && Object.keys(cards).length > 0 && (
         <Button
           variant="contained"
           color="primary"
