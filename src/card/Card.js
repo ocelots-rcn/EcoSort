@@ -23,20 +23,29 @@ import { useDraggable } from "@dnd-kit/core";
 
   const Card = ({ card }) => {
     
-    const { attributes, listeners, setNodeRef } = useDraggable({
+    const { attributes, listeners, setNodeRef, transform } = useDraggable({
       id: card.id,
     }); 
   
     const isDragging = false; //fix
 
+    const style = {
+      opacity: isDragging ? 0.5 : 0.999,
+      cursor: 'move',
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+      transform: transform
+      ? `translate(${transform.x}px, ${transform.y}px)`
+      : undefined,
+    };
+
+    
+
   return (
     <div
-      // ref={drag}
-      style={{
-        opacity: isDragging ? 0.5 : 0.999,
-        cursor: 'move',
-        backgroundColor: 'rgba(255, 255, 255, 0)'
-      }}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
     >
       {card.container}
     </div>

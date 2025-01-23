@@ -23,6 +23,8 @@ import IconButton from '@mui/material/IconButton';
 
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useDroppable } from '@dnd-kit/core';
+
 import Card from '../card/Card';
 import ItemTypes from '../card/ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
@@ -36,8 +38,10 @@ const Bin = ({ id }) => {
 
   const binCards = bin?.contents?.map(cardId => cards[cardId]) || [];
 
- //setNodeRef
-  const isOver = false; //fix
+  const { isOver, setNodeRef } = useDroppable({
+      id: id,
+    });
+
 
 
   const handleDeleteBin = () => {
@@ -47,7 +51,7 @@ const Bin = ({ id }) => {
   return (
     /* Main container */
     <Box
-      // ref={set} //setNodeRef
+      ref={setNodeRef}
       sx={{
         minWidth: '242px',
         height: 'fit-content',

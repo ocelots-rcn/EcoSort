@@ -31,13 +31,11 @@ const CardHolder = (props) => {
   const { translation } = useTranslationContext();
 
   const { isOver, setNodeRef } = useDroppable({
-    id: props.id,
+    id: 999, //fix
   });
-  console.log(cards)
 
   const cardArray = Object.values(cards).filter(card => card.location === 'original');
   const isCardHolderEmpty = cardArray.length === 0;
-console.log(cardArray)
   return (
     <Box
       ref={setNodeRef}
@@ -50,7 +48,7 @@ console.log(cardArray)
         gap: '10px',
         border: '1px solid rgb(0 0 0 / 0.15)',
         padding: '10px',
-        overflowY: 'auto',
+        // overflowY: 'auto', // turn this back on after using dragOverlay 
         position: 'relative',
         backgroundColor: isOver ? 'rgb(0 0 0 / 0.2)' : 'rgb(0 0 0 / 0.2)',
       }}

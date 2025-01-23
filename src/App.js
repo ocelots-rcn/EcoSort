@@ -49,8 +49,7 @@ const App = () => {
     setActiveId(null);
     const { over } = event;
 
-    // If the item is dropped over a container, set it as the parent
-    // otherwise reset the parent to `null`
+    // this needs to run the logic for moving a card
     setParent(over ? over.id : null);
   }
 };
