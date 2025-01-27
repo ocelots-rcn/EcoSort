@@ -29,6 +29,7 @@ import BinBox from './bin/BinBox';
 
 const App = () => {
   const { moveCard} = useDataContext();
+  const [isDragging, setIsDragging] = useState(false);
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -40,7 +41,7 @@ const App = () => {
   )
 
   function handleDragStart(event) {
-    // overlay
+    setIsDragging(true);
   }
 
   function handleDragEnd(event) {
@@ -48,6 +49,7 @@ const App = () => {
     if (over) {
       moveCard(event.active.id, over.id);
     }
+    setIsDragging(false);
   }
 };
 

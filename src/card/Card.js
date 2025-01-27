@@ -22,14 +22,14 @@ import { useDraggable } from "@dnd-kit/core";
 
   const Card = ({ card }) => {
     
-    const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    const { attributes, listeners, setNodeRef, isDragging, transform } = useDraggable({
       id: card.id,
     }); 
-  
-    const isDragging = false; //fix
+
 
     const style = {
-      opacity: isDragging ? 0.5 : 0.999,
+      opacity: isDragging ? 0.7 : 0.999,
+      zIndex: isDragging? 1000 : 0,
       cursor: 'move',
       backgroundColor: 'rgba(255, 255, 255, 0)',
       transform: transform
