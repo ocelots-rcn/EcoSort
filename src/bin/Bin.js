@@ -32,17 +32,15 @@ import { useTranslationContext } from '../provider/TranslationProvider';
 
 const Bin = ({ id }) => {
   const { translation } = useTranslationContext();
-  const { bins, cards, moveCard, deleteBin } = useDataContext();
+  const { bins, cards, deleteBin } = useDataContext();
 
   const bin = bins.find(bin => bin.id === id);
 
   const binCards = bin?.contents?.map(cardId => cards[cardId]) || [];
 
   const { isOver, setNodeRef } = useDroppable({
-      id: id,
+      id,
     });
-
-
 
   const handleDeleteBin = () => {
     deleteBin(id);

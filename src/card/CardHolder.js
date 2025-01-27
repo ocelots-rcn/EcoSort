@@ -26,12 +26,12 @@ import ItemTypes from './ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
 
-const CardHolder = (props) => {
-  const { cards, moveCard, checkGrouping } = useDataContext();
+const CardHolder = () => {
+  const { cards, checkGrouping } = useDataContext();
   const { translation } = useTranslationContext();
 
   const { isOver, setNodeRef } = useDroppable({
-    id: 999, //fix
+    id: 'original',
   });
 
   const cardArray = Object.values(cards).filter(card => card.location === 'original');

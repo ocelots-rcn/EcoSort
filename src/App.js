@@ -19,6 +19,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import { useState } from 'react';
 import { DndContext, DragOverlay } from "@dnd-kit/core";
+import { useDataContext } from './provider/DataProvider';
 
 import Box from '@mui/material/Box';
 
@@ -27,10 +28,7 @@ import BinBox from './bin/BinBox';
 
 
 const App = () => {
-  const [activeId, setActiveId] = useState(null);
-  const [parent, setParent] = useState(null);
-
- 
+  const { moveCard} = useDataContext();
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -42,18 +40,15 @@ const App = () => {
   )
 
   function handleDragStart(event) {
-    setActiveId(event.active.id);
+    // overlay
   }
 
   function handleDragEnd(event) {
-    setActiveId(null);
     const { over } = event;
-
-    // this needs to run the logic for moving a card
-    setParent(over ? over.id : null);
+    if (over) {
+      moveCard(event.active.id, over.id);
+    }
   }
 };
-
-
 
 export default App;
