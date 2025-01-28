@@ -27,11 +27,9 @@ import CardHolder from './card/CardHolder';
 import BinBox from './bin/BinBox';
 import CardContent from './card/CardContent';
 
-
 const App = () => {
   const { moveCard, cards } = useDataContext();
   const [activeId, setActiveId] = useState(null);
-  console.log(cards[activeId])
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
@@ -41,7 +39,7 @@ const App = () => {
         <DragOverlay dropAnimation={{
           duration: 100,
         }}>
-          <CardContent card={cards[activeId]} activeId={activeId}/>
+           { activeId !== null ? (<CardContent card={cards[activeId]} activeId={activeId}/>) : null}
         </DragOverlay>
       </Box>
     </DndContext>

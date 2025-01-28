@@ -26,7 +26,7 @@ import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
 import CardContent from './CardContent';
 
-const CardHolder = ({ activeId}) => {
+const CardHolder = ({ activeId }) => {
   const { cards, checkGrouping } = useDataContext();
   const { translation } = useTranslationContext();
 
@@ -48,7 +48,7 @@ const CardHolder = ({ activeId}) => {
         gap: '10px',
         border: '1px solid rgb(0 0 0 / 0.15)',
         padding: '10px',
-        overflowY: 'auto', // turn this back on after using dragOverlay 
+        overflowY: 'auto',
         position: 'relative',
         backgroundColor: isOver ? 'rgb(0 0 0 / 0.2)' : 'rgb(0 0 0 / 0.2)',
       }}

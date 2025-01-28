@@ -26,12 +26,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDroppable } from '@dnd-kit/core';
 
 import Card from '../card/Card';
-import ItemTypes from '../card/ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
 import CardContent from '../card/CardContent';
 
-const Bin = ({ id }) => {
+const Bin = ({ id, activeId }) => {
   const { translation } = useTranslationContext();
   const { bins, cards, deleteBin } = useDataContext();
 
@@ -94,7 +93,7 @@ const Bin = ({ id }) => {
       >
         {binCards.map(card => (
           <Card key={card.id} card={card}>
-            <CardContent card={card} />
+            <CardContent card={card} activeId={activeId}/>
           </Card>
         ))}
       </Box>

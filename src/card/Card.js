@@ -21,7 +21,7 @@ import { useDraggable } from "@dnd-kit/core";
 
   const Card = ({ card, children }) => {
     
-    const { attributes, listeners, setNodeRef, isDragging, transform } = useDraggable({
+    const { attributes, listeners, setNodeRef } = useDraggable({
       id: card.id,
     }); 
 

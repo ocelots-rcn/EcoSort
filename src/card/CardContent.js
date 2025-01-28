@@ -17,13 +17,17 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+// Presentational component that allows card contents to render in draggable and DragOverlay
 
   const CardContent = ({ card, activeId }) => {
+    console.log(activeId); 
+
+    const dragging = (card.id === activeId);
 
     const style = {
-      opacity: activeId ? 0.5 : 0.999,
+      opacity: dragging ? 0.8 : 0.999,
       cursor: 'move',
-      backgroundColor: 'rgba(255, 255, 255, 0)',
+      border: dragging ? '2px solid red' : 'none',
     };
 
   return (
