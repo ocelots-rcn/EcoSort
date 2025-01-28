@@ -23,7 +23,7 @@ import Bin from './Bin';
 import ButtonBar from '../header/ButtonBar';
 import { useDataContext } from '../provider/DataProvider';
 
-const BinBox = (activeId) => {
+const BinBox = ({ activeId }) => {
   const { bins } = useDataContext(); // Use context to get bins
   return <Box sx={{padding: 1, flex: 1,}}>
     <ButtonBar />

@@ -20,14 +20,12 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // Presentational component that allows card contents to render in draggable and DragOverlay
 
   const CardContent = ({ card, activeId }) => {
-    console.log(activeId); 
 
     const dragging = (card.id === activeId);
 
     const style = {
-      opacity: dragging ? 0.8 : 0.999,
+      opacity: dragging ? 0.80 : 0.999,
       cursor: 'move',
-      border: dragging ? '2px solid red' : 'none',
     };
 
   return (
