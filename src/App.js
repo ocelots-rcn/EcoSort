@@ -25,23 +25,30 @@ import Box from '@mui/material/Box';
 
 import CardHolder from './card/CardHolder';
 import BinBox from './bin/BinBox';
+import CardContent from './card/CardContent';
 
 
 const App = () => {
-  const { moveCard} = useDataContext();
-  const [isDragging, setIsDragging] = useState(false);
+  const { moveCard, cards } = useDataContext();
+  const [activeId, setActiveId] = useState(null);
+  console.log(cards[activeId])
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-        <CardHolder />
-        <BinBox />
+        <CardHolder activeId={activeId} />
+        <BinBox activeId={activeId} />
+        <DragOverlay dropAnimation={{
+          duration: 100,
+        }}>
+          <CardContent card={cards[activeId]} activeId={activeId}/>
+        </DragOverlay>
       </Box>
     </DndContext>
   )
 
   function handleDragStart(event) {
-    setIsDragging(true);
+    setActiveId(event.active.id);
   }
 
   function handleDragEnd(event) {
@@ -49,7 +56,7 @@ const App = () => {
     if (over) {
       moveCard(event.active.id, over.id);
     }
-    setIsDragging(false);
+    setActiveId(null);
   }
 };
 

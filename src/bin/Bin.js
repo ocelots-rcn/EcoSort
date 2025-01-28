@@ -29,6 +29,7 @@ import Card from '../card/Card';
 import ItemTypes from '../card/ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
+import CardContent from '../card/CardContent';
 
 const Bin = ({ id }) => {
   const { translation } = useTranslationContext();
@@ -92,7 +93,9 @@ const Bin = ({ id }) => {
         }}
       >
         {binCards.map(card => (
-          <Card key={card.id} card={card} />
+          <Card key={card.id} card={card}>
+            <CardContent card={card} />
+          </Card>
         ))}
       </Box>
     </Box>

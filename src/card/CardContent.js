@@ -17,23 +17,22 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import { useDraggable } from "@dnd-kit/core";
 
-  const Card = ({ card, children }) => {
-    
-    const { attributes, listeners, setNodeRef, isDragging, transform } = useDraggable({
-      id: card.id,
-    }); 
+  const CardContent = ({ card, activeId }) => {
+
+    const style = {
+      opacity: activeId ? 0.5 : 0.999,
+      cursor: 'move',
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+    };
 
   return (
     <div
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
+      style={style}
     >
-      {children}
+      {card.container}
     </div>
   );
 };
 
-export default Card;
+export default CardContent;

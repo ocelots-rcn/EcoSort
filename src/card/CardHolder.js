@@ -22,11 +22,11 @@ import Button from '@mui/material/Button';
 import { useDroppable } from "@dnd-kit/core";
 
 import Card from './Card';
-import ItemTypes from './ItemTypes';
 import { useDataContext } from '../provider/DataProvider';
 import { useTranslationContext } from '../provider/TranslationProvider';
+import CardContent from './CardContent';
 
-const CardHolder = () => {
+const CardHolder = ({ activeId}) => {
   const { cards, checkGrouping } = useDataContext();
   const { translation } = useTranslationContext();
 
@@ -48,16 +48,18 @@ const CardHolder = () => {
         gap: '10px',
         border: '1px solid rgb(0 0 0 / 0.15)',
         padding: '10px',
-        // overflowY: 'auto', // turn this back on after using dragOverlay 
+        overflowY: 'auto', // turn this back on after using dragOverlay 
         position: 'relative',
         backgroundColor: isOver ? 'rgb(0 0 0 / 0.2)' : 'rgb(0 0 0 / 0.2)',
       }}
     >
   {cardArray.map(card => (
-        <Card key={card.id} card={card} />
+        <Card key={card.id} card={card}>
+          <CardContent card={card} activeId={activeId}/>
+        </Card>
       ))}
 
-      {isCardHolderEmpty && cards.length > 0 && (
+      {isCardHolderEmpty && Object.keys(cards).length > 0 && (
         <Button
           variant="contained"
           color="primary"
