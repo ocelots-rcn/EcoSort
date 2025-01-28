@@ -31,10 +31,10 @@ const CardHolder = ({ activeId }) => {
   const { translation } = useTranslationContext();
 
   const { isOver, setNodeRef } = useDroppable({
-    id: 'original',
+    id: 'unsorted',
   });
 
-  const cardArray = Object.values(cards).filter(card => card.location === 'original');
+  const cardArray = Object.values(cards).filter(card => card.location === 'unsorted');
   const isCardHolderEmpty = cardArray.length === 0;
   return (
     <Box
