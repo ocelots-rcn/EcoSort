@@ -26,20 +26,25 @@ import Box from '@mui/material/Box';
 import CardHolder from './card/CardHolder';
 import BinBox from './bin/BinBox';
 import CardContent from './card/CardContent';
+import Bin from './bin/Bin'
 
 const App = () => {
-  const { moveCard, cards } = useDataContext();
+  const { moveCard, cards, bins } = useDataContext();
   const [activeId, setActiveId] = useState(null);
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <CardHolder activeId={activeId} />
-        <BinBox activeId={activeId} />
+        <BinBox activeId={activeId}>
+          {bins.map(bin => (
+            <Bin key={bin.id} id={bin.id} activeId={activeId} />
+          ))}
+        </BinBox>
         <DragOverlay dropAnimation={{
           duration: 100,
         }}>
-           { activeId !== null ? (<CardContent card={cards[activeId]} activeId={activeId}/>) : null}
+          {activeId !== null ? (<CardContent card={cards[activeId]} activeId={activeId} />) : null}
         </DragOverlay>
       </Box>
     </DndContext>
