@@ -45,7 +45,25 @@ const translations = {
     assessmentGroupNumbers: "The number of groupings is incorrect.",
     assessmentCorrect: "All cards are correctly grouped.",
     assessmentIncorrect: "Some cards are not correctly grouped.",
-    reflectionQuestion: "Reflection Question:"
+    reflectionQuestion: "Reflection Question:",
+    screenReader: {
+      onDragStart: item => `Picked up card ${item}`,
+      onDragOver: (item, overId) => overId ? `Card ${item} is over ${overId === 'unsorted' ? 'unsorted area' : `group ${overId}`}` : `Card ${item} is no longer over a drop area`,
+      onDragEnd: (item, overId) => overId ? `Dropped card ${item} into ${overId === 'unsorted' ? 'unsorted area' : `group ${overId}`}` : `Card ${item} was dropped`,
+      onDragCancel: item => `Cancelled dragging card ${item}`
+    },
+    aria: {
+      card: id => `Card ${id}`,
+      draggableItem: 'draggable item'
+    },
+    screenReaderInstructions: {
+      draggable: `
+        To pick up a card, press space or enter.
+        While dragging, use arrow keys to move the card.
+        Press space or enter again to drop the card in its new position.
+        Press escape to cancel.
+      `
+    },
   },
   es: {
     about: {
@@ -75,11 +93,29 @@ const translations = {
     assessmentGroupNumbers: "El número de agrupaciones es incorrecto.",
     assessmentCorrect: "Todas las cartas están correctamente agrupadas.",
     assessmentIncorrect: "Algunas tarjetas no están agrupadas correctamente.",
-    reflectionQuestion: "Pregunta de reflexión:"
+    reflectionQuestion: "Pregunta de reflexión:",
+    screenReader: {
+      onDragStart: item => `Tarjeta ${item} recogida`,
+      onDragOver: (item, overId) => overId ? `Tarjeta ${item} está sobre ${overId === 'sinclasificar' ? 'área sin clasificar' : `grupo ${overId}`}` : `Tarjeta ${item} ya no está sobre un área`,
+      onDragEnd: (item, overId) => overId ? `Tarjeta ${item} colocada en ${overId === 'sinclasificar' ? 'área sin clasificar' : `grupo ${overId}`}` : `Tarjeta ${item} fue soltada`,
+      onDragCancel: item => `Se canceló el arrastre de la tarjeta ${item}`
+    },
+    aria: {
+      card: id => `Tarjeta ${id}`,
+      draggableItem: 'elemento arrastrable'
+    },
+    screenReaderInstructions: {
+      draggable: `
+        Para recoger una tarjeta, presione espacio o enter.
+        Mientras arrastra, use las flechas para mover la tarjeta.
+        Presione espacio o enter nuevamente para soltar la tarjeta en su nueva posición.
+        Presione escape para cancelar.
+      `
+    },
   },
   fr: {
     about: {
-      ecoSort: 'À propos d’EcoSort',
+      ecoSort: 'À propos d\'EcoSort',
       p1: 'EcoSort est un outil en ligne pour enseigner des concepts ....',
       p2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     },
@@ -105,7 +141,25 @@ const translations = {
     assessmentGroupNumbers: "Le nombre de regroupements est incorrect.",
     assessmentCorrect: "Toutes les cartes sont correctement regroupées.",
     assessmentIncorrect: "Certaines cartes ne sont pas correctement regroupées.",
-    reflectionQuestion: "Question de réflexion:"
+    reflectionQuestion: "Question de réflexion:",
+    screenReader: {
+      onDragStart: item => `Carte ${item} ramassée`,
+      onDragOver: (item, overId) => overId ? `Carte ${item} est au-dessus ${overId === 'nontrie' ? 'de la zone non triée' : `du groupe ${overId}`}` : `Carte ${item} n'est plus au-dessus d'une zone`,
+      onDragEnd: (item, overId) => overId ? `Carte ${item} déposée dans ${overId === 'nontrie' ? 'la zone non triée' : `le groupe ${overId}`}` : `Carte ${item} a été déposée`,
+      onDragCancel: item => `Glissement de la carte ${item} annulé`
+    },
+    aria: {
+      card: id => `Carte ${id}`,
+      draggableItem: 'élément déplaçable'
+    },
+    screenReaderInstructions: {
+      draggable: `
+        Pour ramasser une carte, appuyez sur espace ou entrée.
+        Pendant le déplacement, utilisez les flèches pour déplacer la carte.
+        Appuyez à nouveau sur espace ou entrée pour déposer la carte dans sa nouvelle position.
+        Appuyez sur échap pour annuler.
+      `
+    },
   },
 };
 

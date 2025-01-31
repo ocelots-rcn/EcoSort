@@ -20,6 +20,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import { useState } from 'react';
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { useDataContext } from './provider/DataProvider';
+import { useTranslationContext } from './provider/TranslationProvider';
 
 import Box from '@mui/material/Box';
 
@@ -30,10 +31,36 @@ import Bin from './bin/Bin'
 
 const App = () => {
   const { moveCard, cards, bins } = useDataContext();
+  const { translation } = useTranslationContext();
   const [activeId, setActiveId] = useState(null);
 
+  const announcements = {
+    onDragStart({ active }) {
+      return translation.screenReader.onDragStart(active.id);
+    },
+    onDragOver({ active, over }) {
+      return translation.screenReader.onDragOver(active.id, over?.id);
+    },
+    onDragEnd({ active, over }) {
+      return translation.screenReader.onDragEnd(active.id, over?.id);
+    },
+    onDragCancel({ active }) {
+      return translation.screenReader.onDragCancel(active.id);
+    }
+  };
+
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext 
+      onDragStart={handleDragStart} 
+      onDragEnd={handleDragEnd}
+      announcements={announcements}
+      accessibility={{
+        announcements,
+        container: document.body,
+        restoreFocus: true,
+        screenReaderInstructions: translation.screenReaderInstructions.draggable
+      }}
+    >
       <Box sx={{ display: 'flex', flexDirection: 'row' }}>
         <CardHolder activeId={activeId} />
         <BinBox activeId={activeId}>

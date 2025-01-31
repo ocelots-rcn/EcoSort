@@ -18,18 +18,28 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 import { useDraggable } from "@dnd-kit/core";
+import { useTranslationContext } from '../provider/TranslationProvider';
 
-  const Card = ({ card, children }) => {
-    
-    const { attributes, listeners, setNodeRef } = useDraggable({
-      id: card.id,
-    }); 
+const Card = ({ card, children }) => {
+  const { translation } = useTranslationContext();
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: card.id,
+  });
 
   return (
     <div
       ref={setNodeRef}
       {...attributes}
       {...listeners}
+      role="button"
+      tabIndex={0}
+      aria-roledescription={translation.aria.draggableItem}
+      aria-label={translation.aria.card(card.id)}
+      style={{
+        opacity: isDragging ? 0.5 : undefined,
+        cursor: 'grab',
+        touchAction: 'none',
+      }}
     >
       {children}
     </div>
