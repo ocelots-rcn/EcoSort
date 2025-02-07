@@ -16,31 +16,28 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React from 'react';
 
 import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
 
-import AddBox from '@mui/icons-material/AddBox';
+import ButtonBar from '../header/ButtonBar.jsx';
 
-import { useTranslationContext } from '../provider/TranslationProvider';
-import { useDataContext } from '../provider/DataProvider';
-
-const NewBinButton = () => {
-  const { translation } = useTranslationContext();
-  const { createNewBin } = useDataContext();
-
-  return <Box sx={{display: 'flex', flexDirection: 'row'}}>
-    <Tooltip title={translation.newBin}>
-      <IconButton onClick={createNewBin} >
-        <AddBox />
-      </IconButton>
-    </Tooltip>
-    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
-      {translation.group}
+const BinBox = ({ children }) => {
+  return <Box sx={{padding: 1, flex: 1,}}>
+    <ButtonBar />
+    <Box sx={{
+      padding: 2,
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: '12px',
+      justifyContent: 'center',
+      alignContent: 'baseline',
+      minHeight: '90vh',
+      maxHeight: '80vh',
+      overflowY: 'auto'
+    }}>
+      {children}
     </Box>
   </Box>
-}
+};
 
-export default NewBinButton
+export default BinBox;

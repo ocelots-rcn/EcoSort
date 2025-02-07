@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Caden Klopfenstein
+Copyright 2024 Peter Ersts
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the “Software”), to deal in the Software without restriction,
@@ -16,50 +16,35 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import DialogContent from '@mui/material/DialogContent';
 
-import Settings from '@mui/icons-material/Settings';
+import Info from '@mui/icons-material/Info';
 
-import { useTranslationContext } from '../provider/TranslationProvider';
-import { useDataContext } from '../provider/DataProvider';
+import { useTranslationContext } from '../provider/TranslationProvider.jsx';
 
-const Grouping = () => {
+const About = () => {
   const [open, setOpen] = useState(false);
-  const { translation, translateBlock } = useTranslationContext();
-  const { currentGrouping, groupings, setCurrentGrouping } = useDataContext();
+  const { translation } = useTranslationContext();
 
-  return <Box sx={{display: 'flex', flexDirection: 'row'}}>
-    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
-      {translation.groupBy} {groupings[currentGrouping] && translateBlock(groupings[currentGrouping].label)}
-    </Box>
-    <Tooltip title={translation.selectGrouping}>
+  return <Box>
+    <Tooltip title={translation.about.ecoSort}>
       <IconButton onClick={() => setOpen(true)}>
-        <Settings />
+        <Info />
       </IconButton>
     </Tooltip>
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{translation.selectGrouping}</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {Object.keys(groupings).map(group => 
-          <ListItem disableGutters key={group}>
-          <ListItemButton onClick={() => {setCurrentGrouping(group); setOpen(false);}}>
-            <ListItemText primary={translateBlock(groupings[group].label)} />
-          </ListItemButton>
-        </ListItem>
-        )}
-      </List>
+      <DialogTitle>{translation.about.ecoSort}</DialogTitle>
+      <DialogContent>{translation.about.p1}</DialogContent>
+      <DialogContent>{translation.about.p2}</DialogContent>
     </Dialog>
   </Box>
 };
 
-export default Grouping;
+export default About;

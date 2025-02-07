@@ -1,5 +1,5 @@
 /*
-Copyright 2024 Peter Ersts
+Copyright 2024 Caden Klopfenstein
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the “Software”), to deal in the Software without restriction,
@@ -16,35 +16,29 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React, { useState } from 'react';
-
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
+import IconButton from '@mui/material/IconButton';
 
-import Info from '@mui/icons-material/Info';
+import AddBox from '@mui/icons-material/AddBox';
 
-import { useTranslationContext } from '../provider/TranslationProvider';
+import { useTranslationContext } from '../provider/TranslationProvider.jsx';
+import { useDataContext } from '../provider/DataProvider.jsx';
 
-const About = () => {
-  const [open, setOpen] = useState(false);
+const NewBinButton = () => {
   const { translation } = useTranslationContext();
+  const { createNewBin } = useDataContext();
 
-  return <Box>
-    <Tooltip title={translation.about.ecoSort}>
-      <IconButton onClick={() => setOpen(true)}>
-        <Info />
+  return <Box sx={{display: 'flex', flexDirection: 'row'}}>
+    <Tooltip title={translation.newBin}>
+      <IconButton onClick={createNewBin} >
+        <AddBox />
       </IconButton>
     </Tooltip>
-    <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{translation.about.ecoSort}</DialogTitle>
-      <DialogContent>{translation.about.p1}</DialogContent>
-      <DialogContent>{translation.about.p2}</DialogContent>
-    </Dialog>
+    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
+      {translation.group}
+    </Box>
   </Box>
-};
+}
 
-export default About;
+export default NewBinButton

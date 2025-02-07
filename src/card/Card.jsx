@@ -15,48 +15,38 @@ NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPO
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Ed Waisanen
+* 1/30/2025 a11y improvements - switch to dnd-kit
 */
-import React, { createContext, useContext, useState, useEffect } from 'react';
 
-import translations from './translations';
+import { useDraggable } from "@dnd-kit/core";
+import { useTranslationContext } from '../provider/TranslationProvider.jsx';
 
-const TranslationContext = createContext();
-
-const TranslationProvider = ({ children }) => {
-  const [language, setLanguage] = useState('en');
-
-  useEffect(() => {
-    const browserLang = navigator.language.split('-')[0];
-    if (translations[browserLang]) {
-      setLanguage(browserLang);
-    }
-  }, []);
-
-  const translateBlock = (block) => {
-    return block[language] || block['en'];
-  };
-
-  const value = {
-    language,
-    setLanguage,
-    translateBlock,
-    translation: translations[language] || translations.en, // Default to English if language not supported
-  };
+const Card = ({ card, children }) => {
+  const { translation } = useTranslationContext();
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: card.id,
+  });
 
   return (
-    <TranslationContext.Provider value={value}>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      role="button"
+      tabIndex={0}
+      aria-roledescription={translation.aria.draggableItem}
+      aria-label={translation.aria.card(card.id)}
+      style={{
+        opacity: isDragging ? 0.5 : undefined,
+        cursor: 'grab',
+        touchAction: 'none',
+      }}
+    >
       {children}
-    </TranslationContext.Provider>
+    </div>
   );
 };
 
-// Custom hook to use the DataContext
-const useTranslationContext = () => {
-  const context = useContext(TranslationContext);
-  if (context === undefined) {
-    throw new Error('useTranslationContext must be used within a TranslationProvider');
-  }
-  return context;
-};
-
-export { TranslationProvider, useTranslationContext }
+export default Card;

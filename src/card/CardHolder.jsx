@@ -21,10 +21,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useDroppable } from "@dnd-kit/core";
 
-import Card from './Card';
-import { useDataContext } from '../provider/DataProvider';
-import { useTranslationContext } from '../provider/TranslationProvider';
-import CardContent from './CardContent';
+import Card from './Card.jsx';
+import { useDataContext } from '../provider/DataProvider.jsx';
+import { useTranslationContext } from '../provider/TranslationProvider.jsx';
+import CardContent from './CardContent.jsx';
 
 const CardHolder = ({ activeId }) => {
   const { cards, checkGrouping } = useDataContext();

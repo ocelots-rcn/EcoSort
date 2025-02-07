@@ -16,27 +16,26 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { DataProvider } from './provider/DataProvider';
-import { TranslationProvider } from './provider/TranslationProvider'; // Import LanguageProvider
+import Box from '@mui/material/Box';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <TranslationProvider>
-      <DataProvider>
-        <App />
-      </DataProvider>
-    </TranslationProvider>
-  </React.StrictMode>
-);
+import NewBinButton from './NewBinButton.jsx';
+import SelectLanguage from './SelectLanguage.jsx';
+import About from './About.jsx';
+import Grouping from './Grouping.jsx';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const ButtonBar = () => {
 
+  return <Box sx={{
+    display: 'flex',
+    flexDirection: 'row',
+  }}>
+    <NewBinButton />
+    <Box sx={{flex: 1}}/>
+    <Grouping />
+    <Box sx={{flex: 1}}/>
+    <SelectLanguage />
+    <About />
+  </Box>
+};
+
+export default ButtonBar;

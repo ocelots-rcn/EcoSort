@@ -26,10 +26,10 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useDroppable } from '@dnd-kit/core';
 
-import Card from '../card/Card';
-import { useDataContext } from '../provider/DataProvider';
-import { useTranslationContext } from '../provider/TranslationProvider';
-import CardContent from '../card/CardContent';
+import Card from '../card/Card.jsx';
+import { useDataContext } from '../provider/DataProvider.jsx';
+import { useTranslationContext } from '../provider/TranslationProvider.jsx';
+import CardContent from '../card/CardContent.jsx';
 
 const Bin = ({ id, activeId }) => {
   const { translation } = useTranslationContext();

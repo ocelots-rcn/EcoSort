@@ -27,10 +27,10 @@ import { useTranslationContext } from './provider/TranslationProvider';
 
 import Box from '@mui/material/Box';
 
-import CardHolder from './card/CardHolder';
-import BinBox from './bin/BinBox';
-import CardContent from './card/CardContent';
-import Bin from './bin/Bin'
+import CardHolder from './card/CardHolder.jsx';
+import BinBox from './bin/BinBox.jsx';
+import CardContent from './card/CardContent.jsx';
+import Bin from './bin/Bin.jsx'
 
 const App = () => {
   const { moveCard, cards, bins } = useDataContext();

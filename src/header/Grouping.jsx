@@ -16,11 +16,11 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import List from '@mui/material/List';
@@ -28,27 +28,32 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
-import Language from '@mui/icons-material/Language';
-import { useTranslationContext } from '../provider/TranslationProvider';
+import Settings from '@mui/icons-material/Settings';
 
-const SelectLanguage = () => {
+import { useTranslationContext } from '../provider/TranslationProvider.jsx';
+import { useDataContext } from '../provider/DataProvider.jsx';
+
+const Grouping = () => {
   const [open, setOpen] = useState(false);
-  const { translation, setLanguage } = useTranslationContext();
-  const languages = translation.language.languages;
+  const { translation, translateBlock } = useTranslationContext();
+  const { currentGrouping, groupings, setCurrentGrouping } = useDataContext();
 
-  return <Box>
-    <Tooltip title={translation.language.select}>
+  return <Box sx={{display: 'flex', flexDirection: 'row'}}>
+    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
+      {translation.groupBy} {groupings[currentGrouping] && translateBlock(groupings[currentGrouping].label)}
+    </Box>
+    <Tooltip title={translation.selectGrouping}>
       <IconButton onClick={() => setOpen(true)}>
-        <Language />
+        <Settings />
       </IconButton>
     </Tooltip>
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{translation.language.select}</DialogTitle>
+      <DialogTitle>{translation.selectGrouping}</DialogTitle>
       <List sx={{ pt: 0 }}>
-        {Object.keys(languages).map(lang => 
-          <ListItem disableGutters key={lang}>
-          <ListItemButton onClick={() => {setLanguage(lang); setOpen(false);}}>
-            <ListItemText primary={languages[lang]} />
+        {Object.keys(groupings).map(group => 
+          <ListItem disableGutters key={group}>
+          <ListItemButton onClick={() => {setCurrentGrouping(group); setOpen(false);}}>
+            <ListItemText primary={translateBlock(groupings[group].label)} />
           </ListItemButton>
         </ListItem>
         )}
@@ -57,4 +62,4 @@ const SelectLanguage = () => {
   </Box>
 };
 
-export default SelectLanguage;
+export default Grouping;

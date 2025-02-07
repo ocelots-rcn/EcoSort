@@ -16,28 +16,20 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React from 'react';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
 
-import Box from '@mui/material/Box';
+import { DataProvider } from './provider/DataProvider.jsx';
+import { TranslationProvider } from './provider/TranslationProvider.jsx'; // Import LanguageProvider
 
-import NewBinButton from './NewBinButton';
-import SelectLanguage from './SelectLanguage';
-import About from './About';
-import Grouping from './Grouping';
-
-const ButtonBar = () => {
-
-  return <Box sx={{
-    display: 'flex',
-    flexDirection: 'row',
-  }}>
-    <NewBinButton />
-    <Box sx={{flex: 1}}/>
-    <Grouping />
-    <Box sx={{flex: 1}}/>
-    <SelectLanguage />
-    <About />
-  </Box>
-};
-
-export default ButtonBar;
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <TranslationProvider>
+      <DataProvider>
+        <App />
+      </DataProvider>
+    </TranslationProvider>
+  </StrictMode>
+)
