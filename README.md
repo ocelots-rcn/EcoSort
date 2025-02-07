@@ -9,7 +9,7 @@ Students and instructors benefit greatly from online interactive data tools that
 git clone https://github.com/ocelots-rcn/EcoSort
 cd EcoSort
 npm install
-npm start dev
+npm run dev
 ```
 
 
