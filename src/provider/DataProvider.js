@@ -71,7 +71,7 @@ const transformData = (dataset) => {
           })}
         </Box>
       ),
-      location: 'original',
+      location: 'unsorted',
       grouping: card.grouping
     };
     id += 1;
@@ -143,11 +143,11 @@ const DataProvider = ({ children }) => {
 
       if (binIndex === -1) return prevBins;
 
-      // Move cards from the deleted bin back to the original location
+      // Move cards from the deleted bin back to the unsorted location
       const binToDelete = prevBins[binIndex];
       if (binToDelete.contents.length > 0) {
         binToDelete.contents.forEach(cardId => {
-          moveCard(cardId, 'original');
+          moveCard(cardId, 'unsorted');
         });
       }
 

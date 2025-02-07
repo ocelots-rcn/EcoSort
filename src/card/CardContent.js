@@ -17,36 +17,27 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Ed Waisanen
-* 1/30/2025 a11y improvements - switch to dnd-kit
+* 1/30/2025 a11y improvements - switch to dnd-kit - refactored
 */
 
-import { useDraggable } from "@dnd-kit/core";
-import { useTranslationContext } from '../provider/TranslationProvider';
+// Presentational component that allows card contents to render in draggable and DragOverlay
 
-const Card = ({ card, children }) => {
-  const { translation } = useTranslationContext();
-  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-    id: card.id,
-  });
+  const CardContent = ({ card, activeId }) => {
+
+    const dragging = (card.id === activeId);
+
+    const style = {
+      opacity: dragging ? 0.80 : 0.999,
+      cursor: 'move',
+    };
 
   return (
     <div
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      role="button"
-      tabIndex={0}
-      aria-roledescription={translation.aria.draggableItem}
-      aria-label={translation.aria.card(card.id)}
-      style={{
-        opacity: isDragging ? 0.5 : undefined,
-        cursor: 'grab',
-        touchAction: 'none',
-      }}
+      style={style}
     >
-      {children}
+      {card.container}
     </div>
   );
 };
 
-export default Card;
+export default CardContent;

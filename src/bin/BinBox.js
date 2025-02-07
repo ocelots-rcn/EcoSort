@@ -16,17 +16,13 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import React from 'react';
 
 import Box from '@mui/material/Box';
 
-import Bin from './Bin';
 import ButtonBar from '../header/ButtonBar';
 import { useDataContext } from '../provider/DataProvider';
 
-const BinBox = () => {
-  const { bins } = useDataContext(); // Use context to get bins, cards, and setBins
-
+const BinBox = ({ children }) => {
   return <Box sx={{padding: 1, flex: 1,}}>
     <ButtonBar />
     <Box sx={{
@@ -40,9 +36,7 @@ const BinBox = () => {
       maxHeight: '80vh',
       overflowY: 'auto'
     }}>
-      {bins.map(bin => (
-        <Bin key={bin.id} id={bin.id} />
-      ))}
+      {children}
     </Box>
   </Box>
 };
