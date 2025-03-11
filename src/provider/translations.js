@@ -20,8 +20,8 @@ const translations = {
   en: {
     about: {
       ecoSort: 'About EcoSort',
-      p1: 'EcoSort is an online tool for teaching concepts ....',
-      p2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      p1: 'Students and instructors benefit greatly from online interactive data tools that offer hands-on experience that enables them to unpack complex concepts in ecology and evolution. EcoSort enables students to dynamically organize and process data in response to a series of ecological questions posed by the instructor. EcoSort provides students with a tactile experience of sorting virtual ‘cards’ with images, text, or data into categories that address prompts based on ecological questions. The tool also evaluates their sorting performance, providing immediate feedback. By fostering self-guided exploration, EcoSort promotes self-learning, complex thinking, and problem solving and helps students synthesize data into a more holistic understanding of ecological and evolutionary concepts.',
+      p2: 'Support was provided by: A grant from the United States National Science Foundation (DBI-RCN-UBE 2120141).'
     },
     language: {
       select: 'Select Language',
@@ -35,6 +35,7 @@ const translations = {
         'error': 'Error',
         'failed': 'Failed to load dataset.'
     },
+    close: 'Close',
     group: 'Group',
     newBin: 'New Group',
     deleteBin: 'Delete Group',
@@ -68,8 +69,8 @@ const translations = {
   es: {
     about: {
       ecoSort: 'Acerca de EcoSort',
-      p1: 'EcoSort es una herramienta online para enseñar conceptos ....',
-      p2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      p1: 'Los estudiantes y los instructores se benefician enormemente de las herramientas de datos interactivos en línea que ofrecen una experiencia práctica que les permite desentrañar conceptos complejos sobre ecología y evolución. EcoSort permite a los estudiantes organizar y procesar datos de manera dinámica en respuesta a una serie de preguntas ecológicas planteadas por el instructor. EcoSort proporciona a los estudiantes una experiencia táctil de clasificación de "tarjetas" virtuales con imágenes, texto o datos en categorías que responden a preguntas ecológicas. La herramienta también evalúa su desempeño de clasificación y proporciona retroalimentación inmediata. Al fomentar la exploración autoguiada, EcoSort promueve el autoaprendizaje, el pensamiento complejo y la resolución de problemas, y ayuda a los estudiantes a sintetizar los datos en una comprensión más holística de los conceptos ecológicos y evolutivos.',
+      p2: 'El apoyo fue proporcionado por: Una subvención de la Fundación Nacional de Ciencias de los Estados Unidos (DBI-RCN-UBE 2120141).'
     },
     language: {
       select: 'Seleccionar Idioma',
@@ -83,6 +84,7 @@ const translations = {
         'error': 'Error',
         'failed': 'No se pudo cargar el conjunto de datos.'
     },
+    close: 'Cerca',
     group: 'Grupo',
     newBin: 'Nuevo Grupo',
     deleteBin: 'Eliminar Grupo',
@@ -116,8 +118,8 @@ const translations = {
   fr: {
     about: {
       ecoSort: 'À propos d\'EcoSort',
-      p1: 'EcoSort est un outil en ligne pour enseigner des concepts ....',
-      p2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+      p1: 'Les étudiants et les enseignants bénéficient grandement des outils de données interactifs en ligne qui offrent une expérience pratique leur permettant de décortiquer des concepts complexes en écologie et en évolution. EcoSort permet aux étudiants d\'organiser et de traiter dynamiquement des données en réponse à une série de questions écologiques posées par l\'instructeur. EcoSort offre aux étudiants une expérience tactile de tri de \'cartes\' virtuelles avec des images, du texte ou des données dans des catégories qui répondent à des questions écologiques. L\'outil évalue également leurs performances de tri, fournissant un retour d\'information immédiat. En favorisant l\'exploration autoguidée, EcoSort favorise l\'auto-apprentissage, la pensée complexe et la résolution de problèmes et aide les étudiants à synthétiser les données dans une compréhension plus holistique des concepts écologiques et évolutionnaires.',
+      p2: 'Le soutien a été fourni par : Une subvention de la National Science Foundation des États-Unis (DBI-RCN-UBE 2120141).'
     },
     language: {
       select: 'Sélectionnez la langue',
@@ -131,6 +133,7 @@ const translations = {
         'error': 'Erreur',
         'failed': 'Échec du chargement de l\'ensemble de données.'
     },
+    close: 'Fermer',
     group: 'Groupe',
     newBin: 'Nouveau Groupe',
     deleteBin: 'Supprimer le Groupe',

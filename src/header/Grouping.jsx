@@ -29,6 +29,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import Settings from '@mui/icons-material/Settings';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useTranslationContext } from '../provider/TranslationProvider.jsx';
 import { useDataContext } from '../provider/DataProvider.jsx';
@@ -48,7 +49,22 @@ const Grouping = () => {
       </IconButton>
     </Tooltip>
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{translation.selectGrouping}</DialogTitle>
+      <DialogTitle>{translation.selectGrouping}
+        <Tooltip title={translation.close}>
+                  <IconButton
+                    onClick={() => setOpen(false)}
+                    size="small"
+                    sx={{
+                      marginLeft: '20px',
+                      '&:hover': {
+                        color: 'red',
+                        backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                      },
+                    }}>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+      </DialogTitle>
       <List sx={{ pt: 0 }}>
         {Object.keys(groupings).map(group => 
           <ListItem disableGutters key={group}>

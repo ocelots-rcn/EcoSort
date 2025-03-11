@@ -29,6 +29,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 import Language from '@mui/icons-material/Language';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useTranslationContext } from '../provider/TranslationProvider.jsx';
 
@@ -44,7 +45,22 @@ const SelectLanguage = () => {
       </IconButton>
     </Tooltip>
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{translation.language.select}</DialogTitle>
+      <DialogTitle>{translation.language.select}
+        <Tooltip title={translation.close}>
+          <IconButton
+            onClick={() => setOpen(false)}
+            size="small"
+            sx={{
+              marginLeft: '20px',
+              '&:hover': {
+                color: 'red',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+              },
+            }}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </DialogTitle>
       <List sx={{ pt: 0 }}>
         {Object.keys(languages).map(lang => 
           <ListItem disableGutters key={lang}>

@@ -26,6 +26,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 
 import Info from '@mui/icons-material/Info';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useTranslationContext } from '../provider/TranslationProvider.jsx';
 
@@ -40,7 +41,22 @@ const About = () => {
       </IconButton>
     </Tooltip>
     <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{translation.about.ecoSort}</DialogTitle>
+      <DialogTitle>{translation.about.ecoSort}
+        <Tooltip title={translation.close}>
+          <IconButton
+            onClick={() => setOpen(false)}
+            size="small"
+            sx={{
+              float: 'right',
+              '&:hover': {
+                color: 'red',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+              },
+            }}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      </DialogTitle>
       <DialogContent>{translation.about.p1}</DialogContent>
       <DialogContent>{translation.about.p2}</DialogContent>
     </Dialog>
