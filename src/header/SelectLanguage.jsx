@@ -63,7 +63,7 @@ const SelectLanguage = () => {
       </DialogTitle>
       <List sx={{ pt: 0 }}>
         {Object.keys(languages).map(lang => 
-          <ListItem disableGutters key={lang}>
+          <ListItem key={lang}>
           <ListItemButton onClick={() => {setLanguage(lang); setOpen(false);}}>
             <ListItemText primary={languages[lang]} />
           </ListItemButton>

@@ -67,7 +67,7 @@ const Grouping = () => {
       </DialogTitle>
       <List sx={{ pt: 0 }}>
         {Object.keys(groupings).map(group => 
-          <ListItem disableGutters key={group}>
+          <ListItem key={group}>
           <ListItemButton onClick={() => {setCurrentGrouping(group); setOpen(false);}}>
             <ListItemText primary={translateBlock(groupings[group].label)} />
           </ListItemButton>
