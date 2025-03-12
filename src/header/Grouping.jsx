@@ -16,66 +16,63 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import { useState } from 'react';
-
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-
-import Settings from '@mui/icons-material/Settings';
-import CloseIcon from '@mui/icons-material/Close';
-
+import { Select, MenuItem, FormControl, InputLabel, Tooltip } from '@mui/material';
 import { useTranslationContext } from '../provider/TranslationProvider.jsx';
 import { useDataContext } from '../provider/DataProvider.jsx';
 
 const Grouping = () => {
-  const [open, setOpen] = useState(false);
   const { translation, translateBlock } = useTranslationContext();
   const { currentGrouping, groupings, setCurrentGrouping } = useDataContext();
 
-  return <Box sx={{display: 'flex', flexDirection: 'row'}}>
-    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
-      {translation.groupBy} {groupings[currentGrouping] && translateBlock(groupings[currentGrouping].label)}
-    </Box>
-    <Tooltip title={translation.selectGrouping}>
-      <IconButton onClick={() => setOpen(true)}>
-        <Settings />
-      </IconButton>
-    </Tooltip>
-    <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{translation.selectGrouping}
-        <Tooltip title={translation.close}>
-                  <IconButton
-                    onClick={() => setOpen(false)}
-                    size="small"
-                    sx={{
-                      marginLeft: '20px',
-                      '&:hover': {
-                        color: 'red',
-                        backgroundColor: 'rgba(255, 0, 0, 0.2)',
-                      },
-                    }}>
-                    <CloseIcon fontSize="small" />
-                  </IconButton>
-                </Tooltip>
-      </DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {Object.keys(groupings).map(group => 
-          <ListItem key={group}>
-          <ListItemButton onClick={() => {setCurrentGrouping(group); setOpen(false);}}>
-            <ListItemText primary={translateBlock(groupings[group].label)} />
-          </ListItemButton>
-        </ListItem>
-        )}
-      </List>
-    </Dialog>
-  </Box>
+  return (
+    <FormControl sx={{ m: 0, minWidth: 200, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+      <InputLabel 
+        id="grouping-select-label" 
+        sx={{ 
+          position: 'static',
+          transform: 'none',
+          marginRight: 'none',
+          color: 'rgba(0, 0, 0, 0.54)',
+          '&.Mui-focused': {
+            color: 'rgba(0, 0, 0, 0.54)',
+          },
+        }}
+      >
+        {translation.groupBy}
+      </InputLabel>
+      <Tooltip title={translation.selectGrouping} placement="right">
+        <Select
+          labelId="grouping-select-label"
+          value={currentGrouping}
+          label={translation.groupBy}
+          onChange={(event) => setCurrentGrouping(event.target.value)}
+          sx={{
+            height: '40px',
+            color: 'rgba(0, 0, 0, 0.54)',
+            fontSize: '1.25rem',
+            '& .MuiOutlinedInput-notchedOutline': {
+              border: 'none',
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              backgroundColor: 'rgba(0, 0, 0, 0.23)',
+            },
+            '&:hover': {
+              backgroundColor: 'rgba(0, 0, 0, 0.04)',
+            },
+            '& .MuiSelect-select': {
+              fontSize: '1.25rem',
+            },
+          }}
+        >
+          {Object.keys(groupings).map(group => (
+            <MenuItem key={group} value={group} sx={{ fontSize: '1.25rem' }}>
+              {translateBlock(groupings[group].label)}
+            </MenuItem>
+          ))}
+        </Select>
+      </Tooltip>
+    </FormControl>
+  );
 };
 
 export default Grouping;

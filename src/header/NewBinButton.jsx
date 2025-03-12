@@ -16,11 +16,9 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-
+import Button from '@mui/material/Button';
 import AddBox from '@mui/icons-material/AddBox';
+import Tooltip from '@mui/material/Tooltip';
 
 import { useTranslationContext } from '../provider/TranslationProvider.jsx';
 import { useDataContext } from '../provider/DataProvider.jsx';
@@ -29,16 +27,25 @@ const NewBinButton = () => {
   const { translation } = useTranslationContext();
   const { createNewBin } = useDataContext();
 
-  return <Box sx={{display: 'flex', flexDirection: 'row'}}>
+  return (
     <Tooltip title={translation.newBin}>
-      <IconButton onClick={createNewBin} >
-        <AddBox />
-      </IconButton>
+      <Button
+        variant="text"
+        startIcon={<AddBox />}
+        onClick={createNewBin}
+        sx={{
+          fontSize: '1.25rem',
+          color: 'rgba(0, 0, 0, 0.54)',
+          textTransform: 'none',
+          '&:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+          },
+        }}
+      >
+        {translation.group}
+      </Button>
     </Tooltip>
-    <Box sx={{padding: '8px 8px 8px 0px', fontSize: '1.5rem', color: 'rgba(0, 0, 0, 0.54)'}}>
-      {translation.group}
-    </Box>
-  </Box>
+  );
 }
 
-export default NewBinButton
+export default NewBinButton;
