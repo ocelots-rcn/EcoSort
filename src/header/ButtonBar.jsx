@@ -28,6 +28,8 @@ const ButtonBar = () => {
   return <Box sx={{
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   }}>
     <NewBinButton />
     <Box sx={{flex: 1}}/>
