@@ -7,7 +7,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+@media print {
+    /* set page size to A3 */
+    @page {
+      size: 29.7cm 42cm;
+      margin: 0;
+    }
+    body {
+      visibility: hidden;
+    }
+    #printable {
+      visibility: visible;
+      position: absolute;
+      left: 0;
+      top: 0;
+      max-height: unset;
+      overflow-y: unset;
+    }
+  }

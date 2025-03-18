@@ -24,7 +24,7 @@ import ButtonBar from '../header/ButtonBar.jsx';
 const BinBox = ({ children }) => {
   return <Box sx={{padding: 1, flex: 1,}}>
     <ButtonBar />
-    <Box sx={{
+    <Box id="printable" sx={{
       padding: 2,
       display: 'flex',
       flexWrap: 'wrap',

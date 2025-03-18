@@ -63,6 +63,10 @@ const Bin = ({ id, activeId }) => {
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
+        '@media print': {
+            maxHeight: 'unset',
+            overflowY: 'unset',
+          }
       }}
     >
       {/*Header container */}
@@ -92,6 +96,9 @@ const Bin = ({ id, activeId }) => {
           gap: '10px',
           overflowY: binCards.length > 1 ? 'auto' : 'hidden',
           paddingBottom: '4px',
+          '@media print': {
+            overflowY: 'unset',
+          }
         }}
       >
         {binCards.map(card => (

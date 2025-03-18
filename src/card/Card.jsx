@@ -41,7 +41,7 @@ const Card = ({ card, children }) => {
       style={{
         opacity: isDragging ? 0.5 : undefined,
         cursor: 'grab',
-        touchAction: 'none',
+        touchAction: 'none'
       }}
     >
       {children}
