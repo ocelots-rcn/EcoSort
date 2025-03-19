@@ -21,8 +21,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import Badge from '@mui/material/Badge';
 
 import CloseIcon from '@mui/icons-material/Close';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 
 import { useDroppable } from '@dnd-kit/core';
 
@@ -33,11 +36,12 @@ import CardContent from '../card/CardContent.jsx';
 
 const Bin = ({ id, activeId }) => {
   const { translation } = useTranslationContext();
-  const { bins, cards, deleteBin } = useDataContext();
+  const { bins, cards, deleteBin, calculateBinStats, failedAttempts } = useDataContext();
 
   const bin = bins.find(bin => bin.id === id);
-
   const binCards = bin?.contents?.map(cardId => cards[cardId]) || [];
+  const { correct, incorrect } = calculateBinStats(id);
+  const showHints = failedAttempts >= 3;
 
   const { isOver, setNodeRef } = useDroppable({
     id,
@@ -72,21 +76,37 @@ const Bin = ({ id, activeId }) => {
       {/*Header container */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
         <Typography variant="h2" sx={{ lineHeight: '1', fontWeight: '500', fontSize: '1.25rem', letterSpacing: '0.0075em', }}>{translation['group']} {id}</Typography>
-        <Tooltip title={translation.deleteBin}>
-          <IconButton
-            onClick={handleDeleteBin}
-            size="small"
-            sx={{
-              marginLeft: 'auto',
-              '&:hover': {
-                color: 'red',
-                backgroundColor: 'rgba(255, 0, 0, 0.2)',
-              },
-            }}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {showHints && binCards.length > 0 && (
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Tooltip title={`${correct} correct cards`}>
+                <Badge badgeContent={correct} color="success" sx={{ '& .MuiBadge-badge': { fontSize: '0.8rem' } }}>
+                  <CheckCircleIcon color="success" fontSize="small" />
+                </Badge>
+              </Tooltip>
+              <Tooltip title={`${incorrect} incorrect cards`}>
+                <Badge badgeContent={incorrect} color="error" sx={{ '& .MuiBadge-badge': { fontSize: '0.8rem' } }}>
+                  <ErrorIcon color="error" fontSize="small" />
+                </Badge>
+              </Tooltip>
+            </Box>
+          )}
+          <Tooltip title={translation.deleteBin}>
+            <IconButton
+              onClick={handleDeleteBin}
+              size="small"
+              sx={{
+                marginLeft: 'auto',
+                '&:hover': {
+                  color: 'red',
+                  backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                },
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Box>
       {/* Card Container */}
       <Box
