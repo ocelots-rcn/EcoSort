@@ -298,7 +298,8 @@ const DataProvider = ({ children }) => {
       deleteBin, 
       calculateBinStats, 
       error,
-      failedAttempts 
+      failedAttempts,
+      setFailedAttempts 
     }}>
       {children}
       <Dialog open={open} onClose={handleClose}>
