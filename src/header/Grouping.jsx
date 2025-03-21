@@ -22,7 +22,7 @@ import { useDataContext } from '../provider/DataProvider.jsx';
 
 const Grouping = () => {
   const { translation, translateBlock } = useTranslationContext();
-  const { currentGrouping, groupings, setCurrentGrouping } = useDataContext();
+  const { currentGrouping, groupings, setCurrentGrouping, setFailedAttempts } = useDataContext();
 
   return (
     <FormControl sx={{ m: 0, minWidth: 200, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -45,7 +45,7 @@ const Grouping = () => {
           labelId="grouping-select-label"
           value={currentGrouping}
           label={translation.groupBy}
-          onChange={(event) => setCurrentGrouping(event.target.value)}
+          onChange={(event) => {setCurrentGrouping(event.target.value); setFailedAttempts(0);}}
           sx={{
             height: '40px',
             color: 'rgba(0, 0, 0, 0.54)',

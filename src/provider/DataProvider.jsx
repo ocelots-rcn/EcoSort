@@ -2,7 +2,7 @@
 Copyright 2024 Caden Klopfenstein
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-and associated documentation files (the “Software”), to deal in the Software without restriction,
+and associated documentation files (the "Software"), to deal in the Software without restriction,
 including without limitation the rights to use, copy, modify, merge, publish, distribute,
 sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
 is furnished to do so, subject to the following conditions:
@@ -10,7 +10,7 @@ is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial
 portions of the Software.
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
@@ -93,6 +93,7 @@ const DataProvider = ({ children }) => {
   const [cards, setCards] = useState({});
   const [groupings, setGroupings] = useState({});
   const [currentGrouping, setCurrentGrouping] = useState('')
+  const [failedAttempts, setFailedAttempts] = useState(0);
 
   const [open, setOpen] = useState(false);
   const [correct, setCorrect] = useState(false);
@@ -189,10 +190,10 @@ const DataProvider = ({ children }) => {
     if (bins.length !== totalCategories) {
       setCorrect(false);
       setMessage(translation['assessmentGroupNumbers']);
+      setFailedAttempts(prev => prev + 1);
       setOpen(true);
       return;
     }
-
 
     if (assessmentFunction === 'categorical') {
       let isCorrect = true;
@@ -223,9 +224,11 @@ const DataProvider = ({ children }) => {
       if (isCorrect) {
         setCorrect(true);
         setMessage(translation['assessmentCorrect']);
+        setFailedAttempts(0); // Reset failed attempts on success
       } else {
         setCorrect(false);
         setMessage(translation['assessmentIncorrect']);
+        setFailedAttempts(prev => prev + 1);
       }
     } else {
       console.log("Implement your own assessment function");
@@ -262,8 +265,42 @@ const DataProvider = ({ children }) => {
     });
   };
 
+  // Calculate the number of correct and incorrect cards in a bin
+  const calculateBinStats = (binId) => {
+    const bin = bins.find(b => b.id === binId);
+    if (!bin || !bin.contents.length) return { correct: 0, incorrect: 0 };
+
+    const cardsInBin = bin.contents.map(cardId => cards[cardId]);
+    if (cardsInBin.length === 0) return { correct: 0, incorrect: 0 };
+
+    // Get the grouping value of the first card as reference
+    const firstCardGroupingValue = cardsInBin[0].grouping[currentGrouping];
+    
+    // Count correct and incorrect cards
+    const correct = cardsInBin.filter(card => card.grouping[currentGrouping] === firstCardGroupingValue).length;
+    const incorrect = cardsInBin.length - correct;
+
+    return { correct, incorrect };
+  };
+
   return (
-    <DataContext.Provider value={{ bins, setBins, cards, setCards, groupings, currentGrouping, setCurrentGrouping, createNewBin, checkGrouping, moveCard, deleteBin }}>
+    <DataContext.Provider value={{ 
+      bins, 
+      setBins, 
+      cards, 
+      setCards, 
+      groupings, 
+      currentGrouping, 
+      setCurrentGrouping, 
+      createNewBin, 
+      checkGrouping, 
+      moveCard, 
+      deleteBin, 
+      calculateBinStats, 
+      error,
+      failedAttempts,
+      setFailedAttempts 
+    }}>
       {children}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{translation['assessment']}</DialogTitle>
